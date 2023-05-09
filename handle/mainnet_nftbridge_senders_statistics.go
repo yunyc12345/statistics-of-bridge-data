@@ -50,8 +50,20 @@ func handleDemand3(chain utils.Chain, list *sync.Map, wg *sync.WaitGroup) {
 
 	event := abi.Events["TransferNFT"]
 	curHeight, nextHeight := chain.StartHeight, chain.StartHeight
-	internal := 1000
+	internal := 5000
 
+	contractAddr := cd.Info.NftBridge
+	if contractAddr == "" {
+		if cd.Info.Name == "eth mainnet" {
+			contractAddr = "0x1e40CD8569F3c91F5101d54AE01a75574a9ccE60"
+		}
+
+		if cd.Info.Name == "bsc mainnet" {
+			contractAddr = "0xE09828f0DA805523878Be66EA2a70240d312001e"
+		}
+
+	}
+	utils.Logger.Info(contractAddr)
 	for curHeight < chain.EndHeight {
 		if curHeight+internal >= chain.EndHeight {
 			nextHeight = chain.EndHeight
@@ -65,7 +77,7 @@ func handleDemand3(chain utils.Chain, list *sync.Map, wg *sync.WaitGroup) {
 			BlockHash: nil,
 			FromBlock: big.NewInt(int64(curHeight)), // The error will occur if logs cannot be pulled from the latest block, with a difference of 32.
 			ToBlock:   big.NewInt(int64(nextHeight)),
-			Addresses: []common.Address{common.HexToAddress(cd.Info.NftBridge)},
+			Addresses: []common.Address{common.HexToAddress(contractAddr)},
 			Topics:    [][]common.Hash{{event.ID}},
 		}
 
@@ -81,6 +93,8 @@ func handleDemand3(chain utils.Chain, list *sync.Map, wg *sync.WaitGroup) {
 			utils.Logger.Errorf("chain: %v, try: %v, get logs error :%v", cd.Info.Name, try, err)
 		}
 
+		utils.Logger.Infof("chain: %v, logs len: %v", cd.Info.Name, len(logs))
+
 		for _, l := range logs {
 			eventData, err := abi.Unpack(event.Name, l.Data)
 			if err != nil {
@@ -91,7 +105,7 @@ func handleDemand3(chain utils.Chain, list *sync.Map, wg *sync.WaitGroup) {
 			list.Store(sender, utils.Member)
 		}
 
-		time.Sleep(5 * time.Second)
+		time.Sleep(1 * time.Second)
 
 		curHeight = nextHeight
 	}

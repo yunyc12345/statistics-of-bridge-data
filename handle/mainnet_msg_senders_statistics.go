@@ -42,15 +42,32 @@ func handleDemand4(chain utils.Chain, list *sync.Map, wg *sync.WaitGroup) {
 		return
 	}
 
-	abi, err := contracts.MailboxMetaData.GetAbi()
+	abi, err := contracts.MailerMetaData.GetAbi()
 	if err != nil {
 		utils.Logger.Errorf("chain: %v, get abi error :%v", cd.Info.Name, err)
 		return
 	}
 
-	event := abi.Events["MessageReceived"]
+	event := abi.Events["MessageSend"]
 	curHeight, nextHeight := chain.StartHeight, chain.StartHeight
-	internal := 3000
+	internal := 5000
+
+	//contractAddr := cd.Info.NftBridge
+	//contractGfAddr := cd.Info.MailboxGreenfield
+	//if contractAddr == "" {
+	//	if cd.Info.Name == "eth mainnet" {
+	//		contractAddr = "0x1e40CD8569F3c91F5101d54AE01a75574a9ccE60"
+	//	}
+	//
+	//	if cd.Info.Name == "bsc mainnet" {
+	//		contractAddr = "0xE09828f0DA805523878Be66EA2a70240d312001e"
+	//	}
+	//
+	//}
+
+	utils.Logger.Infof("chain: %v, gf: %v", cd.Info.Name, cd.Info.MailerGreenfield)
+	utils.Logger.Infof("chain: %v, nomarl: %v", cd.Info.Name, cd.Info.Mailer)
+	utils.Logger.Infof("chain: %v, event: %v", cd.Info.Name, event.ID.Hex())
 
 	for curHeight < chain.EndHeight {
 		if curHeight+internal >= chain.EndHeight {
@@ -65,7 +82,7 @@ func handleDemand4(chain utils.Chain, list *sync.Map, wg *sync.WaitGroup) {
 			BlockHash: nil,
 			FromBlock: big.NewInt(int64(curHeight)), // The error will occur if logs cannot be pulled from the latest block, with a difference of 32.
 			ToBlock:   big.NewInt(int64(nextHeight)),
-			Addresses: []common.Address{common.HexToAddress(cd.Info.Mailbox), common.HexToAddress(cd.Info.MailboxGreenfield)},
+			Addresses: []common.Address{common.HexToAddress(cd.Info.Mailer), common.HexToAddress(cd.Info.MailerGreenfield)},
 			Topics:    [][]common.Hash{{event.ID}},
 		}
 
@@ -81,17 +98,19 @@ func handleDemand4(chain utils.Chain, list *sync.Map, wg *sync.WaitGroup) {
 			utils.Logger.Errorf("chain: %v, try: %v, get logs error :%v", cd.Info.Name, try, err)
 		}
 
+		utils.Logger.Infof("chain: %v, logs len: %v", cd.Info.Name, len(logs))
+
 		for _, l := range logs {
 			eventData, err := abi.Unpack(event.Name, l.Data)
 			if err != nil {
 				utils.Logger.Errorf("chain: %v, height: %v ~ %v, parse log err: %v", cd.Info.Name, curHeight, nextHeight, err)
 				return
 			}
-			sender := strings.ToLower(eventData[0].(common.Address).Hex())
+			sender := strings.ToLower(eventData[1].(common.Address).Hex())
 			list.Store(sender, utils.Member)
 		}
 
-		time.Sleep(3 * time.Second)
+		time.Sleep(2 * time.Second)
 
 		curHeight = nextHeight
 	}

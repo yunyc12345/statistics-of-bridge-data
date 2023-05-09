@@ -31,11 +31,14 @@ func main() {
 
 	byteValue, _ := ioutil.ReadAll(jsonFile)
 
-	var config utils.Config
+	var config *utils.Config
 	err = json.Unmarshal(byteValue, &config)
 	if err != nil {
 		panic(err)
 	}
+
+	//j, _ := json.Marshal(config)
+	//utils.Logger.Info(string(j))
 
 	w := &sync.WaitGroup{}
 
