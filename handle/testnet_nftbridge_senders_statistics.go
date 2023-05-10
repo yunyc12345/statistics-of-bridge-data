@@ -50,7 +50,16 @@ func handleDemand1(chain utils.Chain, list *sync.Map, wg *sync.WaitGroup) {
 
 	event := abi.Events["TransferNFT"]
 	curHeight, nextHeight := chain.StartHeight, chain.StartHeight
-	internal := 1000
+	internal := 20000
+
+	addrs := make([]common.Address, 0)
+	for _, s := range cd.Info.NftBridge {
+		addrs = append(addrs, common.HexToAddress(s))
+	}
+
+	utils.Logger.Infof("chain: %v, addr1: %v, addr2: %v", cd.Info.Name, addrs[0].Hex(), addrs[1].Hex())
+	utils.Logger.Infof("chain: %v, height: %v ~ %v", cd.Info.Name, cd.Info.StartHeight, cd.Info.EndHeight)
+	utils.Logger.Infof("chain: %v, topic: %v", cd.Info.Name, event.ID.Hex())
 
 	for curHeight < chain.EndHeight {
 
@@ -66,7 +75,7 @@ func handleDemand1(chain utils.Chain, list *sync.Map, wg *sync.WaitGroup) {
 			BlockHash: nil,
 			FromBlock: big.NewInt(int64(curHeight)), // The error will occur if logs cannot be pulled from the latest block, with a difference of 32.
 			ToBlock:   big.NewInt(int64(nextHeight)),
-			Addresses: []common.Address{common.HexToAddress(cd.Info.NftBridge)},
+			Addresses: addrs,
 			Topics:    [][]common.Hash{{event.ID}},
 		}
 
@@ -82,17 +91,19 @@ func handleDemand1(chain utils.Chain, list *sync.Map, wg *sync.WaitGroup) {
 			utils.Logger.Errorf("chain: %v, try: %v, get logs error :%v", cd.Info.Name, try, err)
 		}
 
+		utils.Logger.Infof("chain: %v, logs1 len: %v", cd.Info.Name, len(logs))
+
 		for _, l := range logs {
 			eventData, err := abi.Unpack(event.Name, l.Data)
 			if err != nil {
 				utils.Logger.Errorf("chain: %v, height: %v ~ %v, parse log err: %v", cd.Info.Name, curHeight, nextHeight, err)
 				return
 			}
-			sender := strings.ToLower(eventData[0].(common.Address).Hex())
+			sender := strings.ToLower(eventData[3].(common.Address).Hex())
 			list.Store(sender, utils.Member)
 		}
 
-		time.Sleep(3 * time.Second)
+		time.Sleep(2 * time.Second)
 
 		curHeight = nextHeight
 	}

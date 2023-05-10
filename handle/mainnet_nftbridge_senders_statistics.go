@@ -50,20 +50,20 @@ func handleDemand3(chain utils.Chain, list *sync.Map, wg *sync.WaitGroup) {
 
 	event := abi.Events["TransferNFT"]
 	curHeight, nextHeight := chain.StartHeight, chain.StartHeight
-	internal := 5000
+	internal := 10000
 
-	contractAddr := cd.Info.NftBridge
-	if contractAddr == "" {
-		if cd.Info.Name == "eth mainnet" {
-			contractAddr = "0x1e40CD8569F3c91F5101d54AE01a75574a9ccE60"
-		}
-
-		if cd.Info.Name == "bsc mainnet" {
-			contractAddr = "0xE09828f0DA805523878Be66EA2a70240d312001e"
-		}
-
+	contractAddr := ""
+	if cd.Info.Name == "eth mainnet" {
+		contractAddr = "0x1e40CD8569F3c91F5101d54AE01a75574a9ccE60"
 	}
-	utils.Logger.Info(contractAddr)
+
+	if cd.Info.Name == "bsc mainnet" {
+		contractAddr = "0xE09828f0DA805523878Be66EA2a70240d312001e"
+	}
+
+	utils.Logger.Infof("chain: %v, contract: %v", cd.Info.Name, contractAddr)
+	utils.Logger.Infof("chain: %v, topic: %v", cd.Info.Name, event.ID.Hex())
+
 	for curHeight < chain.EndHeight {
 		if curHeight+internal >= chain.EndHeight {
 			nextHeight = chain.EndHeight
@@ -101,11 +101,11 @@ func handleDemand3(chain utils.Chain, list *sync.Map, wg *sync.WaitGroup) {
 				utils.Logger.Errorf("chain: %v, height: %v ~ %v, parse log err: %v", cd.Info.Name, curHeight, nextHeight, err)
 				return
 			}
-			sender := strings.ToLower(eventData[0].(common.Address).Hex())
+			sender := strings.ToLower(eventData[3].(common.Address).Hex())
 			list.Store(sender, utils.Member)
 		}
 
-		time.Sleep(1 * time.Second)
+		//time.Sleep(1 * time.Second)
 
 		curHeight = nextHeight
 	}

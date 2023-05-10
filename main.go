@@ -42,13 +42,13 @@ func main() {
 
 	w := &sync.WaitGroup{}
 
-	//go handle.TestnetNftbridgeSendersStatistics(config.TestnetNftbridgeSendersStatistics, w)
+	go handle.TestnetNftbridgeSendersStatistics(config.TestnetNftbridgeSendersStatistics, w)
 
 	//go handle.MainnetNfterc721SendersStatistics(config.MainnetNfterc721SendersStatistics, w)
 
 	//go handle.MainnetNftbridgeSendersStatistics(config.MainnetNftbridgeSendersStatistics, w)
 
-	go handle.MainnetMsgSendersStatistics(config.MainnetMsgSendersStatistics, w)
+	//go handle.MainnetMsgSendersStatistics(config.MainnetMsgSendersStatistics, w)
 
 	time.Sleep(time.Second * 20)
 	w.Wait()
