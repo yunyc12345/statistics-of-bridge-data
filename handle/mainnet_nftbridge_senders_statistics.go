@@ -2,9 +2,11 @@ package handle
 
 import (
 	"context"
+	"encoding/json"
 	"github.com/ethereum/go-ethereum"
 	"github.com/ethereum/go-ethereum/common"
 	"math/big"
+	"strconv"
 	"strings"
 	"sync"
 	"time"
@@ -12,28 +14,50 @@ import (
 	"yunyc12345/statistics-of-bridge-data/utils"
 )
 
-func MainnetNftbridgeSendersStatistics(chains []utils.Chain, w *sync.WaitGroup) {
+func MainnetNftbridgeSendersStatistics(chains []utils.Chain, w *sync.WaitGroup, filePath string) {
+	fp := filePath + "/stat_nftbridge_sender" + "/2023-05-11"
+	err := utils.CreateCsvDir(fp)
+	if err != nil {
+		panic(err)
+	}
+	j, _ := json.Marshal(chains)
+	utils.Logger.Info(string(j))
+
 	w.Add(1)
 	defer w.Done()
 	utils.Logger.Infof("demand3 handle start")
-	list := &sync.Map{}
-	wg := sync.WaitGroup{}
+
+	wg := &sync.WaitGroup{}
 	for _, chain := range chains {
-		c := chain
-		go handleDemand3(c, list, &wg)
+		wg.Add(1)
+		go func(c utils.Chain) {
+			defer wg.Done()
+			for _, token := range c.Tokens {
+				wg.Add(1)
+				go func(t utils.Token) {
+					defer wg.Done()
+					list := &sync.Map{}
+
+					handleDemand3(c, t, list)
+
+					// {chain_name}-{token_name}-{type}-{end_height}-2023/05/11
+					name := c.Name + "-" + t.Name + "-" + "stat_sender" + "-" + strconv.FormatUint(t.EndHeight, 10) + "-" + "2023.05.11"
+					err := utils.ToCsv(list, fp, name)
+					if err != nil {
+						utils.Logger.Errorf("demand3 to csv err: %v", err)
+					}
+				}(token)
+
+			}
+		}(chain)
 	}
+
 	time.Sleep(time.Second * 10)
 	wg.Wait()
 
-	err := utils.ToCsv(list, "demand3")
-	if err != nil {
-		utils.Logger.Errorf("demand3 to csv err: %v", err)
-	}
 }
 
-func handleDemand3(chain utils.Chain, list *sync.Map, wg *sync.WaitGroup) {
-	wg.Add(1)
-	defer wg.Done()
+func handleDemand3(chain utils.Chain, t utils.Token, list *sync.Map) {
 	ctx := context.Background()
 
 	cd, err := utils.InitGlobalCliMapAndZKMap(&chain)
@@ -49,8 +73,9 @@ func handleDemand3(chain utils.Chain, list *sync.Map, wg *sync.WaitGroup) {
 	}
 
 	event := abi.Events["TransferNFT"]
-	curHeight, nextHeight := chain.StartHeight, chain.StartHeight
-	internal := 10000
+	curHeight, nextHeight := t.StartHeight, t.StartHeight
+
+	internal := uint64(10000)
 
 	contractAddr := ""
 	if cd.Info.Name == "eth mainnet" {
@@ -64,9 +89,9 @@ func handleDemand3(chain utils.Chain, list *sync.Map, wg *sync.WaitGroup) {
 	utils.Logger.Infof("chain: %v, contract: %v", cd.Info.Name, contractAddr)
 	utils.Logger.Infof("chain: %v, topic: %v", cd.Info.Name, event.ID.Hex())
 
-	for curHeight < chain.EndHeight {
-		if curHeight+internal >= chain.EndHeight {
-			nextHeight = chain.EndHeight
+	for curHeight < t.EndHeight {
+		if curHeight+internal >= t.EndHeight {
+			nextHeight = t.EndHeight
 		} else {
 			nextHeight += internal
 		}
@@ -102,10 +127,14 @@ func handleDemand3(chain utils.Chain, list *sync.Map, wg *sync.WaitGroup) {
 				return
 			}
 			sender := strings.ToLower(eventData[3].(common.Address).Hex())
-			list.Store(sender, utils.Member)
+			tokenAddress := strings.ToLower(eventData[0].(common.Address).Hex())
+			if tokenAddress == strings.ToLower(t.Address) {
+				list.Store(sender, utils.Member)
+			}
+
 		}
 
-		//time.Sleep(1 * time.Second)
+		time.Sleep(1 * time.Second)
 
 		curHeight = nextHeight
 	}

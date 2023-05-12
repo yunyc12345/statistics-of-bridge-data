@@ -11,38 +11,56 @@ type Void struct{}
 var Member Void
 
 type Chain struct {
-	Name              string   `json:"name"`
-	Endpoint          string   `json:"endpoint"`
-	ZkBridge          []string `json:"zk_bridge"`
-	NftBridge         []string `json:"nft_bridge"`
-	NftErc721         []string `json:"nft_erc721"`
-	Mailer            []string `json:"mailer"`
-	Mailbox           []string `json:"mailbox"`
-	MailerGreenfield  []string `json:"mailer_greenfield"`
-	MailboxGreenfield []string `json:"mailbox_greenfield"`
-	AppChainID        int      `json:"app_chain_id"`
-	ChainID           int      `json:"chain_id"`
-	StartHeight       int      `json:"start_height"`
-	EndHeight         int      `json:"end_height"`
-	WaitNum           int      `json:"wait_num"`
-	WaitSecond        int      `json:"wait_second"`
-	Testnet           bool     `json:"testnet"`
+	Name              string  `json:"name"`
+	Endpoint          string  `json:"endpoint"`
+	ZkBridge          string  `json:"zk_bridge"`
+	NftBridge         string  `json:"nft_bridge"`
+	Tokens            []Token `json:"tokens"`
+	Mailer            string  `json:"mailer"`
+	Mailbox           string  `json:"mailbox"`
+	MailerGreenfield  string  `json:"mailer_greenfield"`
+	MailboxGreenfield string  `json:"mailbox_greenfield"`
+	AppChainID        uint64  `json:"app_chain_id"`
+	ChainID           uint64  `json:"chain_id"`
+	StartHeight       uint64  `json:"start_height"`
+	EndHeight         uint64  `json:"end_height"`
+	WaitNum           uint64  `json:"wait_num"`
+	WaitSecond        uint64  `json:"wait_second"`
+	Testnet           bool    `json:"testnet"`
+}
+
+type Server struct {
+	Port        string `json:"port"`
+	CsvFilePath string `json:"csv_file_path"`
 }
 
 type Config struct {
-	TestnetNftbridgeSendersStatistics []Chain `json:"testnet_nftbridge_senders_statistics"`
-	MainnetNfterc721SendersStatistics []Chain `json:"mainnet_nfterc721_senders_statistics"`
+	//TestnetNftbridgeSendersStatistics []Chain `json:"testnet_nftbridge_senders_statistics"`
+	Server                            Server  `json:"server"`
+	MainnetNftMinterStatistics        []Chain `json:"mainnet_nft_minter_statistics"`
 	MainnetNftbridgeSendersStatistics []Chain `json:"mainnet_nftbridge_senders_statistics"`
 	MainnetMsgSendersStatistics       []Chain `json:"mainnet_msg_senders_statistics"`
 }
 
+type Token struct {
+	Name           string `json:"name"`
+	Address        string `json:"address"`
+	StartHeight    uint64 `json:"start_height"`
+	StartTimestamp uint64 `json:"start_timestamp"`
+
+	EndHeight    uint64 `json:"end_height"`
+	EndTimestamp uint64 `json:"end_timestamp"`
+}
+
 type ChainData struct {
 	Cli       *ethclient.Client
-	ZkBridge  []*contracts.ZKBridage
-	Mailer    []*contracts.Mailer
-	GfMailer  []*contracts.Mailer
-	Nft       []*contracts.Nft
-	NftBridge []*contracts.NftBridge
+	ZkBridge  *contracts.ZKBridage
+	Mailer    *contracts.Mailer
+	GfMailer  *contracts.Mailer
+	Alpha     *contracts.Nft
+	Cobee     *contracts.Nft
+	Loyalty   *contracts.Nft
+	NftBridge *contracts.NftBridge
 	Info      *Chain
 }
 
@@ -53,64 +71,70 @@ func InitGlobalCliMapAndZKMap(chain *Chain) (*ChainData, error) {
 		return nil, err
 	}
 
-	zkBridges := make([]*contracts.ZKBridage, 0)
-	for _, s := range chain.ZkBridge {
-		zk, err := contracts.NewZKBridage(common.HexToAddress(s), c)
-		if err != nil {
-			Logger.Errorln(err)
-			return nil, err
-		}
-		zkBridges = append(zkBridges, zk)
+	zkBridges, err := contracts.NewZKBridage(common.HexToAddress(chain.ZkBridge), c)
+	if err != nil {
+		Logger.Errorln(err)
+		return nil, err
 	}
 
-	mailers := make([]*contracts.Mailer, 0)
-	for _, s := range chain.Mailer {
-		mailer, err := contracts.NewMailer(common.HexToAddress(s), c)
-		if err != nil {
-			Logger.Errorln(err)
-			return nil, err
-		}
-		mailers = append(mailers, mailer)
+	mailer, err := contracts.NewMailer(common.HexToAddress(chain.Mailer), c)
+	if err != nil {
+		Logger.Errorln(err)
+		return nil, err
 	}
 
-	gfMailers := make([]*contracts.Mailer, 0)
-	for _, s := range chain.MailerGreenfield {
-		gfMailer, err := contracts.NewMailer(common.HexToAddress(s), c)
-		if err != nil {
-			Logger.Errorln(err)
-			return nil, err
-		}
-		gfMailers = append(gfMailers, gfMailer)
+	gfMailer, err := contracts.NewMailer(common.HexToAddress(chain.MailerGreenfield), c)
+	if err != nil {
+		Logger.Errorln(err)
+		return nil, err
 	}
 
-	nfts := make([]*contracts.Nft, 0)
-	for _, s := range chain.NftErc721 {
-		nft, err := contracts.NewNft(common.HexToAddress(s), c)
-		if err != nil {
-			Logger.Errorln(err)
-			return nil, err
-		}
-		nfts = append(nfts, nft)
+	nftBridge, err := contracts.NewNftBridge(common.HexToAddress(chain.NftBridge), c)
+	if err != nil {
+		Logger.Errorln(err)
+		return nil, err
 	}
 
-	nftBridges := make([]*contracts.NftBridge, 0)
-	for _, s := range chain.NftBridge {
-		nftBridge, err := contracts.NewNftBridge(common.HexToAddress(s), c)
-		if err != nil {
-			Logger.Errorln(err)
-			return nil, err
+	var alpha *contracts.Nft
+	var loyalty *contracts.Nft
+	var cobee *contracts.Nft
+
+	for _, token := range chain.Tokens {
+		if token.Name == "loyalty" {
+			loyalty, err = contracts.NewNft(common.HexToAddress(token.Address), c)
+			if err != nil {
+				Logger.Errorln(err)
+				return nil, err
+			}
 		}
-		nftBridges = append(nftBridges, nftBridge)
+
+		if token.Name == "alpha" {
+			alpha, err = contracts.NewNft(common.HexToAddress(token.Address), c)
+			if err != nil {
+				Logger.Errorln(err)
+				return nil, err
+			}
+		}
+
+		if token.Name == "cobee" {
+			cobee, err = contracts.NewNft(common.HexToAddress(token.Address), c)
+			if err != nil {
+				Logger.Errorln(err)
+				return nil, err
+			}
+		}
 	}
 
 	cd := ChainData{
 		Cli:       c,
 		ZkBridge:  zkBridges,
-		Mailer:    mailers,
-		GfMailer:  gfMailers,
+		Mailer:    mailer,
+		GfMailer:  gfMailer,
+		Alpha:     alpha,
+		Cobee:     cobee,
+		Loyalty:   loyalty,
+		NftBridge: nftBridge,
 		Info:      chain,
-		Nft:       nfts,
-		NftBridge: nftBridges,
 	}
 
 	return &cd, nil

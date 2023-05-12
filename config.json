@@ -1,122 +1,28 @@
 {
-  "testnet_nftbridge_senders_statistics": [
-    {
-      "name": "eth testnet",
-      "endpoint": "https://eth-goerli.nodereal.io/v1/29c57e58ee374baca2e9ad15a5c8273e",
-      "zk_bridge": [],
-      "nft_bridge": [
-        "0x7007C5258e36a0fbC764b04A82A5Cec2ff0bcaeA",
-        "0x71bcEfE9e9fbad3f12F2E6C14eA0CAE7f0c91E79"
-      ],
-      "nft_erc721": [],
-      "mailer": [],
-      "mailbox": [],
-      "mailer_greenfield": [],
-      "mailbox_greenfield": [],
-      "app_chain_id": 102,
-      "chain_id": 420,
-      "start_height": 8414000,
-      "end_height": 8770134,
-      "wait_num": 15,
-      "wait_second": 12,
-      "testnet": true
-    },
-    {
-      "name": "bsc testnet",
-      "endpoint": "https://data-seed-prebsc-2-s3.binance.org:8545",
-      "zk_bridge": [],
-      "nft_bridge": [
-        "0x769f9c8a37a356a324287b0f50b3b8faf306109a",
-        "0xe91D1f13E8963a757857665B072296F7FCa1C954"
-      ],
-      "nft_erc721": [],
-      "mailer": [],
-      "mailbox": [],
-      "mailer_greenfield": [],
-      "mailbox_greenfield": [],
-      "app_chain_id": 103,
-      "chain_id": 97,
-      "start_height": 24436852,
-      "end_height": 28628037,
-      "wait_num": 15,
-      "wait_second": 3,
-      "testnet": true
-    },
-    {
-      "name": "polygon testnet",
-      "endpoint": "https://matic-mumbai.chainstacklabs.com",
-      "zk_bridge": [],
-      "nft_bridge": [
-        "0xb8E50Aa741c9580a6014731853910D1d8d4404f9",
-        "0xa2fdAF6583a875E3976Af4a9C9eCC923cb7FcD0f"
-      ],
-      "nft_erc721": [],
-      "mailer": [],
-      "mailbox": [],
-      "mailer_greenfield": [],
-      "mailbox_greenfield": [],
-      "app_chain_id": 104,
-      "chain_id": 80001,
-      "start_height": 29059548,
-      "end_height": 33937928,
-      "wait_num": 15,
-      "wait_second": 3,
-      "testnet": true
-    },
-    {
-      "name": "avax testnet",
-      "endpoint": "https://endpoints.omniatech.io/v1/avax/fuji/public",
-      "zk_bridge": [],
-      "nft_bridge": [
-        "0x3F94b26203c9E9c7fe36175Fde6c838B12f93BF5",
-        "0xC447733774b4bb0E74f7b189dcd14eD6156Fa2df"
-      ],
-      "nft_erc721": [],
-      "mailer": [],
-      "mailbox": [],
-      "mailer_greenfield": [],
-      "mailbox_greenfield": [],
-      "app_chain_id": 105,
-      "chain_id": 43113,
-      "start_height": 15575176,
-      "end_height": 20593198,
-      "wait_num": 15,
-      "wait_second": 3,
-      "testnet": true
-    },
-    {
-      "name": "ftm testnet",
-      "endpoint": "https://rpc.testnet.fantom.network",
-      "zk_bridge": [],
-      "nft_bridge": [
-        "0x87e48B81223cFd15a48dBE69EB64814708418645",
-        "0xB39059B0bC5bBF11fA1aDC544560748207Ca4d60"
-      ],
-      "nft_erc721": [],
-      "mailer": [],
-      "mailbox": [],
-      "mailer_greenfield": [],
-      "mailbox_greenfield": [],
-      "app_chain_id": 106,
-      "chain_id": 4002,
-      "start_height": 11924714,
-      "end_height": 14753837,
-      "wait_num": 15,
-      "wait_second": 3,
-      "testnet": true
-    }
-  ],
-  "mainnet_nfterc721_senders_statistics": [
+  "server": {
+    "port": "8778",
+    "csv_file_path": "./csv2"
+  },
+  "mainnet_nft_minter_statistics": [
     {
       "name": "eth mainnet",
       "endpoint": "https://eth-mainnet.nodereal.io/v1/29c57e58ee374baca2e9ad15a5c8273e",
-      "zk_bridge": [],
-      "nft_bridge": [],
-      "nft_erc721": [],
-      "mailer": [],
-      "mailbox": [],
-      "mailer_greenfield": [],
-      "mailbox_greenfield": [],
+      "zk_bridge": "",
+      "nft_bridge": "",
+      "tokens": [
+        {
+          "name": "loyalty",
+          "address": "0x0dD8Cb761D895D502dC91978ceCcb929165F7d6a",
+          "start_height": 17162285,
+          "start_timestamp": 1682870400,
+          "end_height": 17233413,
+          "end_timestamp": 1683734400
+        }
+      ],
+      "mailer": "",
+      "mailbox": "",
+      "mailer_greenfield": "",
+      "mailbox_greenfield": "",
       "app_chain_id": 2,
       "chain_id": 1,
       "start_height": 0,
@@ -128,13 +34,22 @@
     {
       "name": "bsc mainnet",
       "endpoint": "https://bsc-mainnet.nodereal.io/v1/29c57e58ee374baca2e9ad15a5c8273e",
-      "zk_bridge": [],
-      "nft_bridge": [],
-      "nft_erc721": [],
-      "mailer": [],
-      "mailbox": [],
-      "mailer_greenfield": [],
-      "mailbox_greenfield": [],
+      "zk_bridge": "",
+      "nft_bridge": "",
+      "tokens": [
+        {
+          "name": "loyalty",
+          "address": "0x40a2A882c82AD7cC74E5f58Cde7612c07956D4A6",
+          "start_height": 26956110,
+          "start_timestamp": 1680278400,
+          "end_height": 28101926,
+          "end_timestamp": 1683734400
+        }
+      ],
+      "mailer": "",
+      "mailbox": "",
+      "mailer_greenfield": "",
+      "mailbox_greenfield": "",
       "app_chain_id": 3,
       "chain_id": 56,
       "start_height": 0,
@@ -148,17 +63,34 @@
     {
       "name": "eth mainnet",
       "endpoint": "https://eth-mainnet.nodereal.io/v1/29c57e58ee374baca2e9ad15a5c8273e",
-      "zk_bridge": [],
-      "nft_bridge": [],
-      "nft_erc721": [],
-      "mailer": [],
-      "mailbox": [],
-      "mailer_greenfield": [],
-      "mailbox_greenfield": [],
+      "zk_bridge": "",
+      "nft_bridge": "0x1e40CD8569F3c91F5101d54AE01a75574a9ccE60",
+      "tokens": [
+        {
+          "name": "alpha",
+          "address": "0x0154494A8f48C54772642055B6669196d9749dED",
+          "start_height": 16950603,
+          "start_timestamp": 1680278400,
+          "end_height": 17233413,
+          "end_timestamp": 1683734400
+        },
+        {
+          "name": "loyalty",
+          "address": "0x0dD8Cb761D895D502dC91978ceCcb929165F7d6a",
+          "start_height": 17162285,
+          "start_timestamp": 1682870400,
+          "end_height": 17233413,
+          "end_timestamp": 1683734400
+        }
+      ],
+      "mailer": "",
+      "mailbox": "",
+      "mailer_greenfield": "",
+      "mailbox_greenfield": "",
       "app_chain_id": 2,
       "chain_id": 1,
-      "start_height": 16950603,
-      "end_height": 17162285,
+      "start_height": 0,
+      "end_height": 0,
       "wait_num": 25,
       "wait_second": 3,
       "testnet": false
@@ -166,17 +98,42 @@
     {
       "name": "bsc mainnet",
       "endpoint": "https://bsc-mainnet.nodereal.io/v1/29c57e58ee374baca2e9ad15a5c8273e",
-      "zk_bridge": [],
-      "nft_bridge": [],
-      "nft_erc721": [],
-      "mailer": [],
-      "mailbox": [],
-      "mailer_greenfield": [],
-      "mailbox_greenfield": [],
+      "zk_bridge": "",
+      "nft_bridge": "0xE09828f0DA805523878Be66EA2a70240d312001e",
+      "tokens": [
+        {
+          "name": "alpha",
+          "address": "0xC5ae0d15593316e0cC905840eD2dE83E2DD4EA9E",
+          "start_height": 26956110,
+          "start_timestamp": 1680278400,
+          "end_height": 28101926,
+          "end_timestamp": 1683734400
+        },
+        {
+          "name": "loyalty",
+          "address": "0x40a2A882c82AD7cC74E5f58Cde7612c07956D4A6",
+          "start_height": 27815520,
+          "start_timestamp": 1682870400,
+          "end_height": 28101926,
+          "end_timestamp": 1683734400
+        },
+        {
+          "name": "cobee",
+          "address": "0x9e8c1e7b35f646a606644a5532c6103c647938cf",
+          "start_height": 27815520,
+          "start_timestamp": 1682870400,
+          "end_height": 28101926,
+          "end_timestamp": 1683734400
+        }
+      ],
+      "mailer": "",
+      "mailbox": "",
+      "mailer_greenfield": "",
+      "mailbox_greenfield": "",
       "app_chain_id": 3,
       "chain_id": 56,
-      "start_height": 26956110,
-      "end_height": 27815520,
+      "start_height": 0,
+      "end_height": 0,
       "wait_num": 15,
       "wait_second": 3,
       "testnet": false
@@ -186,17 +143,17 @@
     {
       "name": "eth mainnet",
       "endpoint": "https://eth-mainnet.nodereal.io/v1/29c57e58ee374baca2e9ad15a5c8273e",
-      "zk_bridge": [],
-      "nft_bridge": [],
-      "nft_erc721": [],
-      "mailer": [],
-      "mailbox": [],
-      "mailer_greenfield": [],
-      "mailbox_greenfield": [],
+      "zk_bridge": "",
+      "nft_bridge": "",
+      "tokens": [],
+      "mailer": "0x1Fbc29bD726257EfE5555D47e71030a32426cEbA",
+      "mailbox": "",
+      "mailer_greenfield": "0xB88fE84F922Caf34184EfEbD4146088f5bE0200B",
+      "mailbox_greenfield": "",
       "app_chain_id": 2,
       "chain_id": 1,
-      "start_height": 16950603,
-      "end_height": 17162285,
+      "start_height": 17162285,
+      "end_height": 17233413,
       "wait_num": 25,
       "wait_second": 3,
       "testnet": false
@@ -204,17 +161,17 @@
     {
       "name": "bsc mainnet",
       "endpoint": "https://bsc-mainnet.nodereal.io/v1/29c57e58ee374baca2e9ad15a5c8273e",
-      "zk_bridge": [],
-      "nft_bridge": [],
-      "nft_erc721": [],
-      "mailer": [],
-      "mailbox": [],
-      "mailer_greenfield": [],
-      "mailbox_greenfield": [],
+      "zk_bridge": "",
+      "nft_bridge": "",
+      "tokens": [],
+      "mailer": "0x5c5979832A60c17bB06676fa906bEdD1A013e18c",
+      "mailbox": "",
+      "mailer_greenfield": "0x044332f4b34fD5639482dE41cD1d767F7304fA00",
+      "mailbox_greenfield": "",
       "app_chain_id": 3,
       "chain_id": 56,
-      "start_height": 26956110,
-      "end_height": 27815520,
+      "start_height": 27815520,
+      "end_height": 28101926,
       "wait_num": 15,
       "wait_second": 3,
       "testnet": false

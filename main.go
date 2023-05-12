@@ -31,24 +31,28 @@ func main() {
 
 	byteValue, _ := ioutil.ReadAll(jsonFile)
 
-	var config *utils.Config
+	var config utils.Config
 	err = json.Unmarshal(byteValue, &config)
 	if err != nil {
 		panic(err)
 	}
 
+	err = utils.CreateCsvDir(config.Server.CsvFilePath)
+	if err != nil {
+		panic(err)
+	}
 	//j, _ := json.Marshal(config)
 	//utils.Logger.Info(string(j))
 
 	w := &sync.WaitGroup{}
 
-	go handle.TestnetNftbridgeSendersStatistics(config.TestnetNftbridgeSendersStatistics, w)
+	//go handle.TestnetNftbridgeSendersStatistics(config.TestnetNftbridgeSendersStatistics, w)
 
-	//go handle.MainnetNfterc721SendersStatistics(config.MainnetNfterc721SendersStatistics, w)
+	go handle.MainnetNftMinterStatistics(config.MainnetNftMinterStatistics, w, config.Server.CsvFilePath)
 
-	//go handle.MainnetNftbridgeSendersStatistics(config.MainnetNftbridgeSendersStatistics, w)
+	//go handle.MainnetNftbridgeSendersStatistics(config.MainnetNftbridgeSendersStatistics, w, config.Server.CsvFilePath)
 
-	//go handle.MainnetMsgSendersStatistics(config.MainnetMsgSendersStatistics, w)
+	//go handle.MainnetMsgSendersStatistics(config.MainnetMsgSendersStatistics, w, config.Server.CsvFilePath)
 
 	time.Sleep(time.Second * 20)
 	w.Wait()

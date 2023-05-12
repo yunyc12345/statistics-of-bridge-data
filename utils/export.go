@@ -6,8 +6,9 @@ import (
 	"sync"
 )
 
-func ToCsv(list *sync.Map, name string) error {
-	f, err := os.Create("/home/m/go/src/yunyc12345/statistics-of-bridge-data/csv/" + name + ".csv")
+func ToCsv(list *sync.Map, filePath, name string) error {
+
+	f, err := os.Create(filePath + "/" + name + ".csv")
 	if err != nil {
 		Logger.Errorln(err)
 		return err
