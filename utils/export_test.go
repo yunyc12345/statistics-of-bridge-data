@@ -1,32 +1,14 @@
 package utils
 
 import (
+	"encoding/csv"
 	"github.com/ethereum/go-ethereum/common"
 	"github.com/ethereum/go-ethereum/ethclient"
-	"sync"
+	"io"
+	"os"
 	"testing"
 	"yunyc12345/statistics-of-bridge-data/contracts"
 )
-
-func TestExport(t *testing.T) {
-
-	InitLogger(&LogConf{
-		Level: "info",
-		Path:  "log/app.log",
-	})
-
-	list := &sync.Map{}
-
-	list.Store("0xd9249E3D614dAa3E2e94aEAEe5F21f94E4AdeC9a", Member)
-	list.Store("0x35B0AD80dF8b29AF65CAc60Df30D5604D37FEc29", Member)
-	list.Store("0x35B0AD80dF8b29AF65CAc60Df30D5604D37FEc29", Member)
-	list.Store("0xE09828f0DA805523878Be66EA2a70240d312001e", Member)
-
-	err := ToCsv(list, "mm")
-	if err != nil {
-		panic("")
-	}
-}
 
 func Test2(t *testing.T) {
 	c, _ := ethclient.Dial("https://bsc-mainnet.nodereal.io/v1/29c57e58ee374baca2e9ad15a5c8273e")
@@ -39,4 +21,27 @@ func Test2(t *testing.T) {
 	supply2, _ := nft2.TotalSupply(nil)
 	println(supply2.Uint64())
 
+}
+
+func Test3(t *testing.T) {
+	//list := &sync.Map{}
+	fs, err := os.Open("/home/m/go/src/yunyc12345/statistics-of-bridge-data/csv2/stat_msg_sender/2023-05-11/eth mainnet-msg-17233413-2023.05.11.csv")
+	if err != nil {
+		Logger.Errorln(err)
+		panic("")
+	}
+	defer fs.Close()
+	r := csv.NewReader(fs)
+	for {
+		row, err := r.Read()
+		if err != nil && err != io.EOF {
+			Logger.Errorln(err)
+			panic("")
+		}
+		if err == io.EOF {
+			break
+		}
+		//j, _ := json.Marshal(row[0])
+		println(row[0])
+	}
 }

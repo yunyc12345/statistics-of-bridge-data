@@ -14,8 +14,8 @@ import (
 	"yunyc12345/statistics-of-bridge-data/utils"
 )
 
-func MainnetNftbridgeSendersStatistics(chains []utils.Chain, w *sync.WaitGroup, filePath string) {
-	fp := filePath + "/stat_nftbridge_sender" + "/2023-05-11"
+func TriggerNftBridgeStat(chains []utils.Chain, w *sync.WaitGroup, filePath, dataStr, fileDataStr string, hisList map[string]*sync.Map) {
+	fp := filePath + "/" + dataStr + "/stat_nftbridge_sender"
 	err := utils.CreateCsvDir(fp)
 	if err != nil {
 		panic(err)
@@ -25,31 +25,41 @@ func MainnetNftbridgeSendersStatistics(chains []utils.Chain, w *sync.WaitGroup, 
 
 	w.Add(1)
 	defer w.Done()
-	utils.Logger.Infof("demand3 handle start")
+	utils.Logger.Infof("stat nft bridge sender handle start")
 
 	wg := &sync.WaitGroup{}
 	for _, chain := range chains {
 		wg.Add(1)
 		go func(c utils.Chain) {
+
 			defer wg.Done()
-			for _, token := range c.Tokens {
+
+			for i, token := range c.Tokens {
+
 				wg.Add(1)
-				go func(t utils.Token) {
+
+				go func(t utils.Token, index int) {
+
 					defer wg.Done()
 					list := &sync.Map{}
 
-					handleDemand3(c, t, list)
+					if hisList != nil && len(hisList) != 0 {
+						list = hisList[c.Name+"-"+t.Name]
+					}
+					StatNftBridgeHandler(c, t, list)
 
 					// {chain_name}-{token_name}-{type}-{end_height}-2023/05/11
-					name := c.Name + "-" + t.Name + "-" + "stat_sender" + "-" + strconv.FormatUint(t.EndHeight, 10) + "-" + "2023.05.11"
-					err := utils.ToCsv(list, fp, name)
+					name := c.Name + "-" + t.Name + "-" + "stat_sender" + "-" + strconv.FormatUint(t.EndHeight, 10) + "-" + fileDataStr
+					ll, err := utils.ToCsv(list, fp, name)
 					if err != nil {
-						utils.Logger.Errorf("demand3 to csv err: %v", err)
+						utils.Logger.Errorf("stat nft bridge sender to csv err: %v", err)
 					}
-				}(token)
+					utils.Logger.Infof("chain: %v, token: %v, new nft bridge list len: %v", c.Name, t.Name, ll)
+				}(token, i)
 
 			}
 		}(chain)
+
 	}
 
 	time.Sleep(time.Second * 10)
@@ -57,7 +67,9 @@ func MainnetNftbridgeSendersStatistics(chains []utils.Chain, w *sync.WaitGroup, 
 
 }
 
-func handleDemand3(chain utils.Chain, t utils.Token, list *sync.Map) {
+func StatNftBridgeHandler(chain utils.Chain, t utils.Token, list *sync.Map) {
+	j, _ := json.Marshal(t)
+	utils.Logger.Infof("chain: %v, token: %v, json: %v", chain.Name, t.Name, string(j))
 	ctx := context.Background()
 
 	cd, err := utils.InitGlobalCliMapAndZKMap(&chain)
@@ -108,13 +120,14 @@ func handleDemand3(chain utils.Chain, t utils.Token, list *sync.Map) {
 
 		try := 0
 		logs, err := cd.Cli.FilterLogs(ctx, query)
-		for err != nil && try <= 5 {
+		for err != nil && try <= 10 {
 			try++
 			utils.Logger.Errorf("chain: %v, try: %v, get logs error :%v", cd.Info.Name, try, err)
+			time.Sleep(5 * time.Second)
 			logs, err = cd.Cli.FilterLogs(ctx, query)
 		}
 
-		if err != nil || try > 5 {
+		if err != nil || try > 10 {
 			utils.Logger.Errorf("chain: %v, try: %v, get logs error :%v", cd.Info.Name, try, err)
 		}
 

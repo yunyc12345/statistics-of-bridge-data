@@ -13,8 +13,8 @@ import (
 	"yunyc12345/statistics-of-bridge-data/utils"
 )
 
-func MainnetNftMinterStatistics(chains []utils.Chain, w *sync.WaitGroup, filePath string) {
-	fp := filePath + "/stat_nft_minter" + "/2023-05-11"
+func TriggerNftStat(chains []utils.Chain, w *sync.WaitGroup, filePath, dataStr, fileDataStr string, hisList map[string]*sync.Map) {
+	fp := filePath + "/" + dataStr + "/stat_nft_minter"
 	err := utils.CreateCsvDir(fp)
 	if err != nil {
 		panic(err)
@@ -22,35 +22,45 @@ func MainnetNftMinterStatistics(chains []utils.Chain, w *sync.WaitGroup, filePat
 
 	w.Add(1)
 	defer w.Done()
-	utils.Logger.Infof("demand2 handle start")
+	utils.Logger.Infof("stat nft minter handle start")
 	//list := &sync.Map{}
 	wg := &sync.WaitGroup{}
+
 	for _, chain := range chains {
 		c := chain
 		wg.Add(1)
-		go func() {
+		go func(c utils.Chain) {
 			defer wg.Done()
-			for _, token := range c.Tokens {
+
+			for i, token := range c.Tokens {
+
 				wg.Add(1)
-				go func(t utils.Token) {
+
+				go func(t utils.Token, index int) {
+
 					defer wg.Done()
 					list := &sync.Map{}
 
+					if hisList != nil && len(hisList) != 0 {
+						list = hisList[c.Name+"-"+t.Name]
+					}
 					//timt_str, u := handleDemand2(c, t, list)
-					handleDemand21(c, t, list)
+					StatNftMinterHandler(c, t, list)
 
 					// {chain_name}-{token_name}-{type}-2023/05/11
-					name := c.Name + "-" + t.Name + "-" + "stat_minter" + "-" + strconv.FormatUint(t.EndHeight, 10) + "-" + "2023.05.11"
-					err := utils.ToCsv(list, fp, name)
+					name := c.Name + "-" + t.Name + "-" + "stat_minter" + "-" + strconv.FormatUint(t.EndHeight, 10) + "-" + fileDataStr
+					ll, err := utils.ToCsv(list, fp, name)
 					if err != nil {
-						utils.Logger.Errorf("demand3 to csv err: %v", err)
+						utils.Logger.Errorf("stat nft minter to csv err: %v", err)
 					}
-				}(token)
+					utils.Logger.Infof("chain: %v, token: %v, new nft minter list len: %v", c.Name, t.Name, ll)
+				}(token, i)
 
 			}
-		}()
+		}(c)
 
 	}
+
 	time.Sleep(time.Second * 10)
 	wg.Wait()
 
@@ -60,7 +70,7 @@ func MainnetNftMinterStatistics(chains []utils.Chain, w *sync.WaitGroup, filePat
 	//}
 }
 
-func handleDemand21(chain utils.Chain, t utils.Token, list *sync.Map) {
+func StatNftMinterHandler(chain utils.Chain, t utils.Token, list *sync.Map) {
 	ctx := context.Background()
 
 	cd, err := utils.InitGlobalCliMapAndZKMap(&chain)
@@ -118,7 +128,7 @@ func handleDemand21(chain utils.Chain, t utils.Token, list *sync.Map) {
 			logs, err = cd.Cli.FilterLogs(ctx, query)
 		}
 
-		if err != nil || try > 5 {
+		if err != nil || try > 10 {
 			utils.Logger.Errorf("chain: %v, try: %v, get logs error :%v", cd.Info.Name, try, err)
 		}
 

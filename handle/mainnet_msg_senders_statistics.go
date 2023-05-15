@@ -13,9 +13,9 @@ import (
 	"yunyc12345/statistics-of-bridge-data/utils"
 )
 
-func MainnetMsgSendersStatistics(chains []utils.Chain, w *sync.WaitGroup, filePath string) {
-	fp := filePath + "/state_msg_sender" + "/" + time.Now().Format("2006-01-02")
-	err := utils.CreateCsvFile(fp)
+func TriggerMsgStat(chains []utils.Chain, w *sync.WaitGroup, filePath, dataStr, fileDataStr string, hisList []*sync.Map) {
+	fp := filePath + "/" + dataStr + "/stat_msg_sender"
+	err := utils.CreateCsvDir(fp)
 	if err != nil {
 		utils.Logger.Errorln(err)
 		panic(err)
@@ -23,33 +23,38 @@ func MainnetMsgSendersStatistics(chains []utils.Chain, w *sync.WaitGroup, filePa
 
 	w.Add(1)
 	defer w.Done()
-	utils.Logger.Infof("demand4 handle start")
+	utils.Logger.Infof("stat msg sender handle start")
 
 	wg := &sync.WaitGroup{}
-	for _, chain := range chains {
+	for i, chain := range chains {
 
 		c := chain
 		wg.Add(1)
-		go func(c utils.Chain) {
+		go func(c utils.Chain, index int) {
 			defer wg.Done()
 			list := &sync.Map{}
-			handleDemand4(c, list)
+			if hisList != nil && len(hisList) != 0 {
+				list = hisList[index]
+			}
+			StatMsgSenderHandler(c, list)
 
 			// {chain_name}-{type}-{end_height}-2023/05/11
-			name := c.Name + "-" + "msg" + "-" + strconv.FormatUint(c.EndHeight, 10) + "-" + "2023.05.11"
-			err := utils.ToCsv(list, filePath, name)
+			name := c.Name + "-" + "msg" + "-" + strconv.FormatUint(c.EndHeight, 10) + "-" + fileDataStr
+			ll, err := utils.ToCsv(list, fp, name)
 			if err != nil {
-				utils.Logger.Errorf("demand4 to csv err: %v", err)
+				utils.Logger.Errorf("stat msg to csv err: %v", err)
 			}
-		}(c)
+			utils.Logger.Infof("chain: %v, new msg list len: %v", c.Name, ll)
+		}(c, i)
 
 	}
+
 	time.Sleep(time.Second * 10)
 	wg.Wait()
 
 }
 
-func handleDemand4(chain utils.Chain, list *sync.Map) {
+func StatMsgSenderHandler(chain utils.Chain, list *sync.Map) {
 	//wg.Add(1)
 	//defer wg.Done()
 	ctx := context.Background()
@@ -106,13 +111,14 @@ func handleDemand4(chain utils.Chain, list *sync.Map) {
 
 		try := 0
 		logs, err := cd.Cli.FilterLogs(ctx, query)
-		for err != nil && try <= 5 {
+		for err != nil && try <= 10 {
 			try++
 			utils.Logger.Errorf("chain: %v, try: %v, get logs error :%v", cd.Info.Name, try, err)
+			time.Sleep(5 * time.Second)
 			logs, err = cd.Cli.FilterLogs(ctx, query)
 		}
 
-		if err != nil || try > 5 {
+		if err != nil || try > 10 {
 			utils.Logger.Errorf("chain: %v, try: %v, get logs error :%v", cd.Info.Name, try, err)
 		}
 

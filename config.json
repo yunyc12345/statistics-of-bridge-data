@@ -1,7 +1,7 @@
 {
   "server": {
-    "port": "8778",
-    "csv_file_path": "./csv2"
+    "port": ":8778",
+    "csv_file_path": "/home/m/go/src/yunyc12345/statistics-of-bridge-data/csv3"
   },
   "mainnet_nft_minter_statistics": [
     {
@@ -120,7 +120,7 @@
         {
           "name": "cobee",
           "address": "0x9e8c1e7b35f646a606644a5532c6103c647938cf",
-          "start_height": 27815520,
+          "start_height": 27532007,
           "start_timestamp": 1682870400,
           "end_height": 28101926,
           "end_timestamp": 1683734400
