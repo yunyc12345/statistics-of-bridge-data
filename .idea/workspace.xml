@@ -5,23 +5,9 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="ffe8643a-e1e4-40cf-b5bf-97b6f5b754c2" name="更改" comment="update">
-      <change afterPath="$PROJECT_DIR$/handle/nftbridge_test.go" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/task/stat.go" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/task/task_test.go" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/utils/compression.go" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/config.json" beforeDir="false" afterPath="$PROJECT_DIR$/config.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/go.mod" beforeDir="false" afterPath="$PROJECT_DIR$/go.mod" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/go.sum" beforeDir="false" afterPath="$PROJECT_DIR$/go.sum" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/handle/mainnet_msg_senders_statistics.go" beforeDir="false" afterPath="$PROJECT_DIR$/handle/mainnet_msg_senders_statistics.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/handle/mainnet_nft_minter_statistics.go" beforeDir="false" afterPath="$PROJECT_DIR$/handle/mainnet_nft_minter_statistics.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/handle/mainnet_nftbridge_senders_statistics.go" beforeDir="false" afterPath="$PROJECT_DIR$/handle/mainnet_nftbridge_senders_statistics.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/log/app.log" beforeDir="false" afterPath="$PROJECT_DIR$/log/app.log" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/main.go" beforeDir="false" afterPath="$PROJECT_DIR$/main.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/utils/export.go" beforeDir="false" afterPath="$PROJECT_DIR$/utils/export.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/utils/export_test.go" beforeDir="false" afterPath="$PROJECT_DIR$/utils/export_test.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/utils/help.go" beforeDir="false" afterPath="$PROJECT_DIR$/utils/help.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/utils/model.go" beforeDir="false" afterPath="$PROJECT_DIR$/utils/model.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/handle/nftbridge_test.go" beforeDir="false" afterPath="$PROJECT_DIR$/handle/nftbridge_test.go" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -55,22 +41,22 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent"><![CDATA[{
-  "keyToString": {
-    "DefaultGoTemplateProperty": "Go File",
-    "RunOnceActivity.ShowReadmeOnStart": "true",
-    "RunOnceActivity.go.formatter.settings.were.checked": "true",
-    "RunOnceActivity.go.migrated.go.modules.settings": "true",
-    "RunOnceActivity.go.modules.go.list.on.any.changes.was.set": "true",
-    "WebServerToolWindowFactoryState": "false",
-    "git-widget-placeholder": "48h-task",
-    "go.import.settings.migrated": "true",
-    "last_opened_file_path": "/home/m/go/src/yunyc12345/statistics-of-bridge-data/csv3/2023-05-15/stat_nftbridge_sender",
-    "node.js.detected.package.eslint": "true",
-    "node.js.selected.package.eslint": "(autodetect)",
-    "settings.editor.selected.configurable": "preferences.pluginManager"
+  <component name="PropertiesComponent">{
+  &quot;keyToString&quot;: {
+    &quot;DefaultGoTemplateProperty&quot;: &quot;Go File&quot;,
+    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.go.formatter.settings.were.checked&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.go.migrated.go.modules.settings&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.go.modules.go.list.on.any.changes.was.set&quot;: &quot;true&quot;,
+    &quot;WebServerToolWindowFactoryState&quot;: &quot;false&quot;,
+    &quot;git-widget-placeholder&quot;: &quot;48h-task&quot;,
+    &quot;go.import.settings.migrated&quot;: &quot;true&quot;,
+    &quot;last_opened_file_path&quot;: &quot;/home/m/go/src/yunyc12345/statistics-of-bridge-data/csv3/2023-05-15/stat_nftbridge_sender&quot;,
+    &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
+    &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
+    &quot;settings.editor.selected.configurable&quot;: &quot;preferences.pluginManager&quot;
   }
-}]]></component>
+}</component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
       <recent name="$PROJECT_DIR$/csv3/2023-05-15/stat_nftbridge_sender" />
@@ -83,8 +69,8 @@
       <recent name="$PROJECT_DIR$/utils" />
     </key>
   </component>
-  <component name="RunManager" selected="Go 测试.yunyc12345/statistics-of-bridge-data/handle 中的 TestCobeeStat">
-    <configuration name="yunyc12345/statistics-of-bridge-data/handle 中的 TestCobeeParse" type="GoTestRunConfiguration" factoryName="Go Test" temporary="true" nameIsGenerated="true">
+  <component name="RunManager" selected="Go 测试.yunyc12345/statistics-of-bridge-data/handle 中的 Test1">
+    <configuration name="yunyc12345/statistics-of-bridge-data/handle 中的 Test1" type="GoTestRunConfiguration" factoryName="Go Test" temporary="true" nameIsGenerated="true">
       <module name="statistics-of-bridge-data" />
       <working_directory value="$PROJECT_DIR$/handle" />
       <root_directory value="$PROJECT_DIR$" />
@@ -93,7 +79,7 @@
       <directory value="$PROJECT_DIR$" />
       <filePath value="$PROJECT_DIR$" />
       <framework value="gotest" />
-      <pattern value="^\QTestCobeeParse\E$" />
+      <pattern value="^\QTest1\E$" />
       <method v="2" />
     </configuration>
     <configuration name="yunyc12345/statistics-of-bridge-data/handle 中的 TestCobeeStat" type="GoTestRunConfiguration" factoryName="Go Test" temporary="true" nameIsGenerated="true">
@@ -146,11 +132,11 @@
     </configuration>
     <recent_temporary>
       <list>
-        <item itemvalue="Go 测试.yunyc12345/statistics-of-bridge-data/handle 中的 TestCobeeStat" />
-        <item itemvalue="Go 测试.yunyc12345/statistics-of-bridge-data/handle 中的 TestCobeeParse" />
-        <item itemvalue="Go 测试.yunyc12345/statistics-of-bridge-data/task 中的 Test1" />
+        <item itemvalue="Go 测试.yunyc12345/statistics-of-bridge-data/handle 中的 Test1" />
         <item itemvalue="Go 测试.yunyc12345/statistics-of-bridge-data/utils 中的 Test3" />
         <item itemvalue="Go 测试.yunyc12345/statistics-of-bridge-data/utils 中的 Test2" />
+        <item itemvalue="Go 测试.yunyc12345/statistics-of-bridge-data/task 中的 Test1" />
+        <item itemvalue="Go 测试.yunyc12345/statistics-of-bridge-data/handle 中的 TestCobeeStat" />
       </list>
     </recent_temporary>
   </component>

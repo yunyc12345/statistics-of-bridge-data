@@ -14,6 +14,43 @@ import (
 	"yunyc12345/statistics-of-bridge-data/utils"
 )
 
+func Test1(t *testing.T) {
+	c, err := ethclient.Dial("https://bsc-mainnet.nodereal.io/v1/29c57e58ee374baca2e9ad15a5c8273e")
+	if err != nil {
+		panic("")
+	}
+	abi, err := contracts.NftBridgeMetaData.GetAbi()
+	if err != nil {
+		panic("")
+		return
+	}
+	event := abi.Events["TransferNFT"]
+	query := ethereum.FilterQuery{
+		BlockHash: nil,
+		FromBlock: big.NewInt(int64(28216489)), // The error will occur if logs cannot be pulled from the latest block, with a difference of 32.
+		ToBlock:   big.NewInt(int64(28216489)),
+		Addresses: []common.Address{common.HexToAddress("0xE09828f0DA805523878Be66EA2a70240d312001e")},
+		Topics:    [][]common.Hash{{event.ID}},
+	}
+	ctx := context.Background()
+	logs, err := c.FilterLogs(ctx, query)
+
+	for _, l := range logs {
+		eventData, err := abi.Unpack(event.Name, l.Data)
+		if err != nil {
+			panic("")
+		}
+		sender := strings.ToLower(eventData[3].(common.Address).Hex())
+		tokenAddress := strings.ToLower(eventData[0].(common.Address).Hex())
+		fmt.Printf("sender: %v\n", sender)
+		fmt.Printf("token address: %v\n", tokenAddress)
+		//if tokenAddress == strings.ToLower("0x9e8c1e7b35f646a606644a5532c6103c647938cf") {
+		//	list.Store(sender, utils.Member)
+		//}
+
+	}
+}
+
 func TestCobeeStat(t *testing.T) {
 
 	utils.InitLogger(&utils.LogConf{

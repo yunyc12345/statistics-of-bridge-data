@@ -176,5 +176,8 @@
       "wait_second": 3,
       "testnet": false
     }
-  ]
+  ],
+  "stat_domain": {
+    "url": ""
+  }
 }
