@@ -3,3 +3,5 @@
 /csv3
 /csv
 /.idea
+*.log
+log
