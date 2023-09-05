@@ -1,0 +1,54 @@
+
+POST http://localhost:8778/run/2023-08-31
+Content-Type: application/json
+
+{
+  "eth": {
+    "chain_name": "eth mainnet",
+    "end_height": 18031171
+  },
+  "bsc": {
+    "chain_name": "bsc mainnet",
+    "end_height": 31319582
+  },
+  "polygon": {
+    "chain_name": "polygon mainnet",
+    "end_height": 46956904
+  },
+  "core_dao": {
+    "chain_name": "core dao",
+    "end_height": 6717821
+  },
+  "l0_bsc": {
+    "chain_name": "l0 bsc mainnet",
+    "end_height": 31319582
+  },
+  "l0_polygon": {
+    "chain_name": "l0 polygon mainnet",
+    "end_height": 46956904
+  },
+  "l0_core_dao": {
+    "chain_name": "l0 core dao",
+    "end_height": 6546494
+  },
+  "l0_eth": {
+    "chain_name": "l0 eth mainnet",
+    "end_height": 18031171
+  },
+  "l0_celo": {
+    "chain_name": "l0 celo",
+    "end_height": 21155124
+  },
+  "l0_mantle": {
+    "chain_name": "l0 mantle",
+    "end_height": 3897177
+  },
+  "combo_test_net": {
+    "chain_name": "combo testnet",
+    "end_height": 11466311
+  },
+  "opbnb_test_net": {
+    "chain_name": "opbnb testnet",
+    "end_height": 6561494
+  }
+}
