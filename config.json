@@ -6,69 +6,176 @@
   "mainnet_nft_minter_statistics": [
     {
       "name": "eth mainnet",
-      "endpoint": "https://eth-mainnet.nodereal.io/v1/29c57e58ee374baca2e9ad15a5c8273e",
+      "endpoint": "https://rpc.ankr.com/eth/9b4c185910e116c4c899f349e1616730dbe94ec45dee6c5ffaa7e1f1a64c168d",
       "zk_bridge": "",
       "nft_bridge": "",
       "tokens": [
         {
-          "name": "loyalty",
-          "address": "0x0dD8Cb761D895D502dC91978ceCcb929165F7d6a",
-          "start_height": 17162285,
+          "name": "zkLightClient",
+          "address": "0x4D8910d4AbA36f856D5C1aD9f43d667E54E0A964",
+          "start_height": 0,
           "start_timestamp": 1682870400,
-          "end_height": 17233413,
+          "end_height": 0,
+          "end_timestamp": 1683734400
+        },
+        {
+          "name": "opbnb",
+          "address": "0xcB6cA8eE67E90115dbCe8b0a990443bF7015ceD3",
+          "start_height": 17519216,
+          "start_timestamp": 1682870400,
+          "end_height": 0,
           "end_timestamp": 1683734400
         }
       ],
-      "mailer": "",
-      "mailbox": "",
-      "mailer_greenfield": "",
-      "mailbox_greenfield": "",
       "app_chain_id": 2,
       "chain_id": 1,
       "start_height": 0,
       "end_height": 0,
       "wait_num": 25,
       "wait_second": 3,
-      "testnet": false
+      "testnet": false,
+      "stat_chains": []
     },
     {
       "name": "bsc mainnet",
-      "endpoint": "https://bsc-mainnet.nodereal.io/v1/29c57e58ee374baca2e9ad15a5c8273e",
+      "endpoint": "https://rpc.ankr.com/bsc/9b4c185910e116c4c899f349e1616730dbe94ec45dee6c5ffaa7e1f1a64c168d",
       "zk_bridge": "",
       "nft_bridge": "",
       "tokens": [
         {
-          "name": "loyalty",
-          "address": "0x40a2A882c82AD7cC74E5f58Cde7612c07956D4A6",
-          "start_height": 26956110,
-          "start_timestamp": 1680278400,
-          "end_height": 28101926,
+          "name": "zkLightClient",
+          "address": "0xD2cCC9EE7Ea2ccd154c727A46D475ddA49E99852",
+          "start_height": 0,
+          "start_timestamp": 1682870400,
+          "end_height": 0,
+          "end_timestamp": 1683734400
+        },
+        {
+          "name": "gffaucet",
+          "address": "0x13D23d867e73aF912Adf5d5bd47915261eFa28F2",
+          "start_height": 0,
+          "start_timestamp": 1682870400,
+          "end_height": 0,
+          "end_timestamp": 1683734400
+        },
+        {
+          "name": "faucet",
+          "address": "0x9885C17Dd44c00C37B98F510cdff099EfF437dcE",
+          "start_height": 0,
+          "start_timestamp": 1682870400,
+          "end_height": 0,
+          "end_timestamp": 1683734400
+        },
+        {
+          "name": "luban_loyalty",
+          "address": "0x9885C17Dd44c00C37B98F510cdff099EfF437dcE",
+          "start_height": 29028650,
+          "start_timestamp": 1682870400,
+          "end_height": 29165411,
+          "end_timestamp": 1683734400
+        },
+        {
+          "name": "opbnb",
+          "address": "0x9c614a8E5a23725214024d2C3633BE30D44806f9",
+          "start_height": 29259397,
+          "start_timestamp": 1682870400,
+          "end_height": 0,
           "end_timestamp": 1683734400
         }
       ],
-      "mailer": "",
-      "mailbox": "",
-      "mailer_greenfield": "",
-      "mailbox_greenfield": "",
       "app_chain_id": 3,
       "chain_id": 56,
       "start_height": 0,
       "end_height": 0,
       "wait_num": 15,
       "wait_second": 3,
-      "testnet": false
+      "testnet": false,
+      "stat_chains": []
+    },
+    {
+      "name": "polygon mainnet",
+      "endpoint": "https://polygon-rpc.com",
+      "zk_bridge": "",
+      "nft_bridge": "",
+      "tokens": [
+        {
+          "name": "alpha",
+          "address": "0x9d5d479a84f3358e8e27afe056494bd2da239acd",
+          "start_height": 43122427,
+          "start_timestamp": 0,
+          "end_height": 43149450,
+          "end_timestamp": 0
+        },
+        {
+          "name": "zkLightClient",
+          "address": "0x6b0C248679F493481411a0A14cd5FC2DBBe8Ab02",
+          "start_height": 0,
+          "start_timestamp": 1682870400,
+          "end_height": 0,
+          "end_timestamp": 1683734400
+        },
+        {
+          "name": "opbnb",
+          "address": "0xfeb105763753e9d26DfD4aae1Ed368aa7cC18260",
+          "start_height": 44120096,
+          "start_timestamp": 1682870400,
+          "end_height": 0,
+          "end_timestamp": 1683734400
+        }
+      ],
+      "app_chain_id": 4,
+      "chain_id": 137,
+      "start_height": 0,
+      "end_height": 0,
+      "wait_num": 25,
+      "wait_second": 3,
+      "testnet": false,
+      "stat_chains": []
+    },
+    {
+      "name": "core dao",
+      "endpoint": "https://rpc.coredao.org",
+      "zk_bridge": "",
+      "nft_bridge": "",
+      "tokens": [
+        {
+          "name": "alpha",
+          "address": "0x61DFDbcC65DaF1F60fB1DbE703D84940dA28526c",
+          "start_height": 4619130,
+          "start_timestamp": 0,
+          "end_height": 4631608,
+          "end_timestamp": 0
+        },
+        {
+          "name": "opbnb",
+          "address": "0x0f83DA622E36Ee42cfeB222257E1baF20E16a491",
+          "start_height": 4651650,
+          "start_timestamp": 1682870400,
+          "end_height": 0,
+          "end_timestamp": 1683734400
+        }
+      ],
+      "app_chain_id": 17,
+      "chain_id": 1116,
+      "start_height": 0,
+      "end_height": 0,
+      "wait_num": 25,
+      "wait_second": 3,
+      "testnet": false,
+      "stat_chains": []
     }
   ],
   "mainnet_nftbridge_senders_statistics": [
     {
       "name": "eth mainnet",
-      "endpoint": "https://eth-mainnet.nodereal.io/v1/29c57e58ee374baca2e9ad15a5c8273e",
+      "endpoint": "https://rpc.ankr.com/eth/9b4c185910e116c4c899f349e1616730dbe94ec45dee6c5ffaa7e1f1a64c168d",
       "zk_bridge": "",
       "nft_bridge": "0x1e40CD8569F3c91F5101d54AE01a75574a9ccE60",
       "tokens": [
         {
           "name": "alpha",
           "address": "0x0154494A8f48C54772642055B6669196d9749dED",
+          "bridges": "0x1e40CD8569F3c91F5101d54AE01a75574a9ccE60",
           "start_height": 16950603,
           "start_timestamp": 1680278400,
           "end_height": 17233413,
@@ -77,33 +184,143 @@
         {
           "name": "loyalty",
           "address": "0x0dD8Cb761D895D502dC91978ceCcb929165F7d6a",
+          "bridges": "0x1e40CD8569F3c91F5101d54AE01a75574a9ccE60",
           "start_height": 17162285,
           "start_timestamp": 1682870400,
           "end_height": 17233413,
           "end_timestamp": 1683734400
+        },
+        {
+          "name": "zklightclient",
+          "address": "0x4D8910d4AbA36f856D5C1aD9f43d667E54E0A964",
+          "bridges": "0x1e40CD8569F3c91F5101d54AE01a75574a9ccE60",
+          "start_height": 27532007,
+          "start_timestamp": 1682870400,
+          "end_height": 28101926,
+          "end_timestamp": 1683734400
         }
       ],
-      "mailer": "",
-      "mailbox": "",
-      "mailer_greenfield": "",
-      "mailbox_greenfield": "",
       "app_chain_id": 2,
       "chain_id": 1,
       "start_height": 0,
       "end_height": 0,
       "wait_num": 25,
       "wait_second": 3,
-      "testnet": false
+      "testnet": false,
+      "stat_chains": []
+    },
+    {
+      "name": "l0 eth mainnet",
+      "endpoint": "https://rpc.ankr.com/eth/9b4c185910e116c4c899f349e1616730dbe94ec45dee6c5ffaa7e1f1a64c168d",
+      "zk_bridge": "",
+      "nft_bridge": "0xaD4294BCfDEa6CEb2A4158a38A1a84a6C1A04052",
+      "tokens": [
+        {
+          "name": "alpha",
+          "address": "0x0154494A8f48C54772642055B6669196d9749dED",
+          "bridges": "0xaD4294BCfDEa6CEb2A4158a38A1a84a6C1A04052",
+          "start_height": 16950603,
+          "start_timestamp": 1680278400,
+          "end_height": 17233413,
+          "end_timestamp": 1683734400
+        },
+        {
+          "name": "zklightclient",
+          "address": "0x4D8910d4AbA36f856D5C1aD9f43d667E54E0A964",
+          "bridges": "0xaD4294BCfDEa6CEb2A4158a38A1a84a6C1A04052",
+          "start_height": 27532007,
+          "start_timestamp": 1682870400,
+          "end_height": 28101926,
+          "end_timestamp": 1683734400
+        }
+      ],
+      "app_chain_id": 2,
+      "chain_id": 1,
+      "start_height": 0,
+      "end_height": 0,
+      "wait_num": 25,
+      "wait_second": 3,
+      "testnet": false,
+      "stat_chains": []
+    },
+    {
+      "name": "polygon mainnet",
+      "endpoint": "https://polygon-rpc.com",
+      "zk_bridge": "",
+      "nft_bridge": "0x2E953a70C37E8CB4553DAe1F5760128237c8820D",
+      "tokens": [
+        {
+          "name": "alpha",
+          "address": "0x9d5d479a84f3358e8e27afe056494bd2da239acd",
+          "bridges": "0x2E953a70C37E8CB4553DAe1F5760128237c8820D",
+          "start_height": 43122427,
+          "start_timestamp": 0,
+          "end_height": 43149450,
+          "end_timestamp": 0
+        },
+        {
+          "name": "zklightclient",
+          "address": "0x6b0C248679F493481411a0A14cd5FC2DBBe8Ab02",
+          "bridges": "0x2E953a70C37E8CB4553DAe1F5760128237c8820D",
+          "start_height": 27532007,
+          "start_timestamp": 1682870400,
+          "end_height": 28101926,
+          "end_timestamp": 1683734400
+        }
+      ],
+      "app_chain_id": 4,
+      "chain_id": 137,
+      "start_height": 0,
+      "end_height": 0,
+      "wait_num": 25,
+      "wait_second": 3,
+      "testnet": false,
+      "stat_chains": []
+    },
+    {
+      "name": "l0 polygon mainnet",
+      "endpoint": "https://polygon-rpc.com",
+      "zk_bridge": "",
+      "nft_bridge": "0xFFdF4Fe05899C4BdB1676e958FA9F21c19ECB9D5",
+      "tokens": [
+        {
+          "name": "alpha",
+          "address": "0x9d5d479a84f3358e8e27afe056494bd2da239acd",
+          "bridges": "0xFFdF4Fe05899C4BdB1676e958FA9F21c19ECB9D5",
+          "start_height": 43122427,
+          "start_timestamp": 0,
+          "end_height": 43149450,
+          "end_timestamp": 0
+        },
+        {
+          "name": "zklightclient",
+          "address": "0x6b0C248679F493481411a0A14cd5FC2DBBe8Ab02",
+          "bridges": "0xFFdF4Fe05899C4BdB1676e958FA9F21c19ECB9D5",
+          "start_height": 27532007,
+          "start_timestamp": 1682870400,
+          "end_height": 28101926,
+          "end_timestamp": 1683734400
+        }
+      ],
+      "app_chain_id": 4,
+      "chain_id": 137,
+      "start_height": 0,
+      "end_height": 0,
+      "wait_num": 25,
+      "wait_second": 3,
+      "testnet": false,
+      "stat_chains": []
     },
     {
       "name": "bsc mainnet",
-      "endpoint": "https://bsc-mainnet.nodereal.io/v1/29c57e58ee374baca2e9ad15a5c8273e",
+      "endpoint": "https://rpc.ankr.com/bsc/9b4c185910e116c4c899f349e1616730dbe94ec45dee6c5ffaa7e1f1a64c168d",
       "zk_bridge": "",
       "nft_bridge": "0xE09828f0DA805523878Be66EA2a70240d312001e",
       "tokens": [
         {
           "name": "alpha",
           "address": "0xC5ae0d15593316e0cC905840eD2dE83E2DD4EA9E",
+          "bridges": "0xE09828f0DA805523878Be66EA2a70240d312001e",
           "start_height": 26956110,
           "start_timestamp": 1680278400,
           "end_height": 28101926,
@@ -112,6 +329,7 @@
         {
           "name": "loyalty",
           "address": "0x40a2A882c82AD7cC74E5f58Cde7612c07956D4A6",
+          "bridges": "0xE09828f0DA805523878Be66EA2a70240d312001e",
           "start_height": 27815520,
           "start_timestamp": 1682870400,
           "end_height": 28101926,
@@ -120,35 +338,153 @@
         {
           "name": "cobee",
           "address": "0x9e8c1e7b35f646a606644a5532c6103c647938cf",
+          "bridges": "0xE09828f0DA805523878Be66EA2a70240d312001e",
           "start_height": 27532007,
           "start_timestamp": 1682870400,
           "end_height": 28101926,
           "end_timestamp": 1683734400
+        },
+        {
+          "name": "zklightclient",
+          "address": "0xD2cCC9EE7Ea2ccd154c727A46D475ddA49E99852",
+          "bridges": "0xE09828f0DA805523878Be66EA2a70240d312001e",
+          "start_height": 27532007,
+          "start_timestamp": 1682870400,
+          "end_height": 28101926,
+          "end_timestamp": 1683734400
+        },
+        {
+          "name": "luban_loyalty",
+          "address": "0x9885C17Dd44c00C37B98F510cdff099EfF437dcE",
+          "bridges": "0xE09828f0DA805523878Be66EA2a70240d312001e",
+          "start_height": 29028650,
+          "start_timestamp": 1682870400,
+          "end_height": 29165411,
+          "end_timestamp": 1683734400
+        },
+        {
+          "name": "sbt",
+          "address": "0x8FC516dCdcC1f25F9c1352fDBdc8F3b4e164e596",
+          "bridges": "0x4d4b02D4d4188A1d0Cf3D8290e9481321B94d864",
+          "start_height": 30519141,
+          "start_timestamp": 1682870400,
+          "end_height": 30519141,
+          "end_timestamp": 1683734400
         }
       ],
-      "mailer": "",
-      "mailbox": "",
-      "mailer_greenfield": "",
-      "mailbox_greenfield": "",
       "app_chain_id": 3,
       "chain_id": 56,
       "start_height": 0,
       "end_height": 0,
       "wait_num": 15,
       "wait_second": 3,
-      "testnet": false
+      "testnet": false,
+      "stat_chains": []
+    },
+    {
+      "name": "l0 bsc mainnet",
+      "endpoint": "https://rpc.ankr.com/bsc/9b4c185910e116c4c899f349e1616730dbe94ec45dee6c5ffaa7e1f1a64c168d",
+      "zk_bridge": "",
+      "nft_bridge": "0x3668c325501322CEB5a624E95b9E16A019cDEBe8",
+      "tokens": [
+        {
+          "name": "alpha",
+          "address": "0xC5ae0d15593316e0cC905840eD2dE83E2DD4EA9E",
+          "bridges": "0x3668c325501322CEB5a624E95b9E16A019cDEBe8",
+          "start_height": 26956110,
+          "start_timestamp": 1680278400,
+          "end_height": 28101926,
+          "end_timestamp": 1683734400
+        },
+        {
+          "name": "zklightclient",
+          "address": "0xD2cCC9EE7Ea2ccd154c727A46D475ddA49E99852",
+          "bridges": "0x3668c325501322CEB5a624E95b9E16A019cDEBe8",
+          "start_height": 27532007,
+          "start_timestamp": 1682870400,
+          "end_height": 28101926,
+          "end_timestamp": 1683734400
+        },
+        {
+          "name": "luban_loyalty",
+          "address": "0x9885C17Dd44c00C37B98F510cdff099EfF437dcE",
+          "bridges": "0x3668c325501322CEB5a624E95b9E16A019cDEBe8",
+          "start_height": 29028650,
+          "start_timestamp": 1682870400,
+          "end_height": 29165411,
+          "end_timestamp": 1683734400
+        }
+      ],
+      "app_chain_id": 3,
+      "chain_id": 56,
+      "start_height": 0,
+      "end_height": 0,
+      "wait_num": 15,
+      "wait_second": 3,
+      "testnet": false,
+      "stat_chains": []
+    },
+    {
+      "name": "core dao",
+      "endpoint": "https://rpc.coredao.org",
+      "zk_bridge": "",
+      "nft_bridge": "0x5c5979832A60c17bB06676fa906bEdD1A013e18c",
+      "tokens": [
+        {
+          "name": "alpha",
+          "address": "0x61DFDbcC65DaF1F60fB1DbE703D84940dA28526c",
+          "bridges": "0x5c5979832A60c17bB06676fa906bEdD1A013e18c",
+          "start_height": 4619130,
+          "start_timestamp": 0,
+          "end_height": 4631608,
+          "end_timestamp": 0
+        }
+      ],
+      "app_chain_id": 17,
+      "chain_id": 116,
+      "start_height": 0,
+      "end_height": 0,
+      "wait_num": 25,
+      "wait_second": 3,
+      "testnet": false,
+      "stat_chains": []
+    },
+    {
+      "name": "l0 core dao",
+      "endpoint": "https://rpc.coredao.org",
+      "zk_bridge": "",
+      "nft_bridge": "0x3701c5897710F16F1f75c6EaE258bf11Ee189a5d",
+      "tokens": [
+        {
+          "name": "alpha",
+          "address": "0x61DFDbcC65DaF1F60fB1DbE703D84940dA28526c",
+          "bridges": "0x3701c5897710F16F1f75c6EaE258bf11Ee189a5d",
+          "start_height": 4619130,
+          "start_timestamp": 0,
+          "end_height": 4631608,
+          "end_timestamp": 0
+        }
+      ],
+      "app_chain_id": 17,
+      "chain_id": 116,
+      "start_height": 0,
+      "end_height": 0,
+      "wait_num": 25,
+      "wait_second": 3,
+      "testnet": false,
+      "stat_chains": []
     }
   ],
   "mainnet_msg_senders_statistics": [
     {
       "name": "eth mainnet",
-      "endpoint": "https://eth-mainnet.nodereal.io/v1/29c57e58ee374baca2e9ad15a5c8273e",
+      "endpoint": "https://rpc.ankr.com/eth/9b4c185910e116c4c899f349e1616730dbe94ec45dee6c5ffaa7e1f1a64c168d",
       "zk_bridge": "",
       "nft_bridge": "",
       "tokens": [],
-      "mailer": "0x1Fbc29bD726257EfE5555D47e71030a32426cEbA",
+      "mailer": ["0x1Fbc29bD726257EfE5555D47e71030a32426cEbA","0xbf782f6Eb61d617f7f72B978329339Aa728D21DB"],
       "mailbox": "",
-      "mailer_greenfield": "0xB88fE84F922Caf34184EfEbD4146088f5bE0200B",
+      "mailer_greenfield": ["0xB88fE84F922Caf34184EfEbD4146088f5bE0200B","0x7Ea2c4d09AB095EEbdE5890a08869167bC762Ec3"],
       "mailbox_greenfield": "",
       "app_chain_id": 2,
       "chain_id": 1,
@@ -156,17 +492,18 @@
       "end_height": 17233413,
       "wait_num": 25,
       "wait_second": 3,
-      "testnet": false
+      "testnet": false,
+      "stat_chains": []
     },
     {
       "name": "bsc mainnet",
-      "endpoint": "https://bsc-mainnet.nodereal.io/v1/29c57e58ee374baca2e9ad15a5c8273e",
+      "endpoint": "https://rpc.ankr.com/bsc/9b4c185910e116c4c899f349e1616730dbe94ec45dee6c5ffaa7e1f1a64c168d",
       "zk_bridge": "",
       "nft_bridge": "",
       "tokens": [],
-      "mailer": "0x5c5979832A60c17bB06676fa906bEdD1A013e18c",
+      "mailer": ["0x5c5979832A60c17bB06676fa906bEdD1A013e18c","0xfD3F4D96378072db0862a6F76CC258C2B7ea36cc"],
       "mailbox": "",
-      "mailer_greenfield": "0x044332f4b34fD5639482dE41cD1d767F7304fA00",
+      "mailer_greenfield": ["0x044332f4b34fD5639482dE41cD1d767F7304fA00","0xf0295A8caD5f287CC52b6F5994fE4aa6FB6e8D4B"],
       "mailbox_greenfield": "",
       "app_chain_id": 3,
       "chain_id": 56,
@@ -174,10 +511,449 @@
       "end_height": 28101926,
       "wait_num": 15,
       "wait_second": 3,
-      "testnet": false
+      "testnet": false,
+      "stat_chains": []
+    },
+    {
+      "name": "polygon mainnet",
+      "endpoint": "https://polygon-rpc.com",
+      "zk_bridge": "",
+      "nft_bridge": "",
+      "tokens": [],
+      "mailer": ["0x81f0d785F82630Bbe6639B7eB07EAB21E2992293","0xdB6fb08DD8Ce406DA8Ff53FAe65Bd374e3d68681"],
+      "mailbox": "",
+      "mailer_greenfield": ["0x3fFb989765868CA9f75c90F94A7A17AaB2a981D7","0x8163A9B0901F63c27471b4d051b7250ECDDD362d"],
+      "mailbox_greenfield": "",
+      "app_chain_id": 3,
+      "chain_id": 56,
+      "start_height": 27815520,
+      "end_height": 28101926,
+      "wait_num": 15,
+      "wait_second": 3,
+      "testnet": false,
+      "stat_chains": []
+    },
+    {
+      "name": "core dao",
+      "endpoint": "https://rpc.coredao.org",
+      "zk_bridge": "",
+      "nft_bridge": "",
+      "tokens": [],
+      "mailer": ["0x373d2c6dAbb65F1F85a7bC058664b205da0B0824"],
+      "mailbox": "",
+      "mailer_greenfield": ["0xa0c6ED9Dd8431c40C74BCeEAdA5DaC996dB51f48"],
+      "mailbox_greenfield": "",
+      "app_chain_id": 3,
+      "chain_id": 56,
+      "start_height": 4537274,
+      "end_height": 4537274,
+      "wait_num": 15,
+      "wait_second": 3,
+      "testnet": false,
+      "stat_chains": []
+    },
+    {
+      "name": "celo",
+      "endpoint": "https://rpc.ankr.com/celo",
+      "zk_bridge": "",
+      "nft_bridge": "",
+      "tokens": [],
+      "mailer": ["0x468Bd5792543b47aaeF12C16E668E7Fd3Fe05872"],
+      "mailbox": "",
+      "mailer_greenfield": ["0xEae5c76B250206140a27CA0B75DEB28D7D7EAd9B"],
+      "mailbox_greenfield": "",
+      "app_chain_id": 3,
+      "chain_id": 56,
+      "start_height": 20070863,
+      "end_height": 20070863,
+      "wait_num": 15,
+      "wait_second": 3,
+      "testnet": false,
+      "stat_chains": []
     }
   ],
-  "stat_domain": {
-    "url": ""
-  }
+  "stat_domains": [
+    {
+      "url": "https://api.zkbridge.com/api/msg/domains",
+      "ty": "bnb",
+      "start_timestamp": 1682870400,
+      "end_timestamp": 1683734400
+    }
+  ],
+  "stat_receiver_chains": [
+    {
+      "name": "eth mainnet",
+      "endpoint": "https://rpc.ankr.com/eth/9b4c185910e116c4c899f349e1616730dbe94ec45dee6c5ffaa7e1f1a64c168d",
+      "zk_bridge": "",
+      "nft_bridge": "0x1e40CD8569F3c91F5101d54AE01a75574a9ccE60",
+      "tokens": [],
+      "app_chain_id": 2,
+      "chain_id": 1,
+      "start_height": 0,
+      "end_height": 0,
+      "wait_num": 25,
+      "wait_second": 3,
+      "testnet": false,
+      "merge": false,
+      "stat_chains": [
+        {
+          "name": "linea testnet",
+          "zk_bridges": ["0x1e40CD8569F3c91F5101d54AE01a75574a9ccE60"],
+          "zk_app_chain_id": [115],
+          "start_height": 17162285,
+          "start_timestamp": 1682870400,
+          "end_height": 17233413,
+          "end_timestamp": 1683734400
+        },
+        {
+          "name": "opbnb",
+          "zk_bridges": ["0x1e40CD8569F3c91F5101d54AE01a75574a9ccE60"],
+          "zk_app_chain_id": [116],
+          "start_height": 17162285,
+          "start_timestamp": 1682870400,
+          "end_height": 17233413,
+          "end_timestamp": 1683734400,
+          "stat_contract": [
+            {
+              "name": "opbnb",
+              "addr": "0xcB6cA8eE67E90115dbCe8b0a990443bF7015ceD3",
+              "start_height": 0,
+              "end_height": 0
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "bsc mainnet",
+      "endpoint": "https://rpc.ankr.com/bsc/9b4c185910e116c4c899f349e1616730dbe94ec45dee6c5ffaa7e1f1a64c168d",
+      "zk_bridge": "",
+      "nft_bridge": "0xE09828f0DA805523878Be66EA2a70240d312001e",
+      "tokens": [],
+      "app_chain_id": 3,
+      "chain_id": 56,
+      "start_height": 0,
+      "end_height": 0,
+      "wait_num": 15,
+      "wait_second": 3,
+      "testnet": false,
+      "merge": false,
+      "stat_chains": [
+        {
+          "name": "linea testnet",
+          "zk_bridges": ["0xE09828f0DA805523878Be66EA2a70240d312001e"],
+          "zk_app_chain_id": [115],
+          "start_height": 27532007,
+          "start_timestamp": 1682870400,
+          "end_height": 28101926,
+          "end_timestamp": 1683734400
+        },
+        {
+          "name": "opbnb",
+          "zk_bridges": ["0xE09828f0DA805523878Be66EA2a70240d312001e"],
+          "zk_app_chain_id": [116],
+          "start_height": 17162285,
+          "start_timestamp": 1682870400,
+          "end_height": 17233413,
+          "end_timestamp": 1683734400,
+          "stat_contract": [
+            {
+              "name": "opbnb",
+              "addr": "0x9c614a8E5a23725214024d2C3633BE30D44806f9",
+              "start_height": 0,
+              "end_height": 0
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "polygon mainnet",
+      "endpoint": "https://polygon-rpc.com",
+      "zk_bridge": "",
+      "nft_bridge": "0x2E953a70C37E8CB4553DAe1F5760128237c8820D",
+      "tokens": [],
+      "mailbox": "",
+      "mailbox_greenfield": "",
+      "app_chain_id": 3,
+      "chain_id": 56,
+      "start_height": 27815520,
+      "end_height": 28101926,
+      "wait_num": 15,
+      "wait_second": 3,
+      "testnet": false,
+      "merge": false,
+      "stat_chains": [
+        {
+          "name": "opbnb",
+          "zk_bridges": ["0x2E953a70C37E8CB4553DAe1F5760128237c8820D"],
+          "zk_app_chain_id": [116],
+          "start_height": 17162285,
+          "start_timestamp": 1682870400,
+          "end_height": 17233413,
+          "end_timestamp": 1683734400,
+          "stat_contract": [
+            {
+              "name": "opbnb",
+              "addr": "0xfeb105763753e9d26DfD4aae1Ed368aa7cC18260",
+              "start_height": 0,
+              "end_height": 0
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "core dao",
+      "endpoint": "https://rpc.coredao.org",
+      "zk_bridge": "",
+      "nft_bridge": "0x5c5979832A60c17bB06676fa906bEdD1A013e18c",
+      "tokens": [],
+      "app_chain_id": 17,
+      "chain_id": 1116,
+      "start_height": 0,
+      "end_height": 0,
+      "wait_num": 25,
+      "wait_second": 3,
+      "testnet": false,
+      "merge": false,
+      "stat_chains": [
+        {
+          "name": "opbnb",
+          "zk_bridges": ["0x5c5979832A60c17bB06676fa906bEdD1A013e18c"],
+          "zk_app_chain_id": [116],
+          "start_height": 17162285,
+          "start_timestamp": 1682870400,
+          "end_height": 17233413,
+          "end_timestamp": 1683734400,
+          "stat_contract": [
+            {
+              "name": "opbnb",
+              "addr": "0x0f83DA622E36Ee42cfeB222257E1baF20E16a491",
+              "start_height": 0,
+              "end_height": 0
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "l0 core dao",
+      "endpoint": "https://rpc.coredao.org",
+      "zk_bridge": "",
+      "l0_nft_bridge": "0x3701c5897710F16F1f75c6EaE258bf11Ee189a5d",
+      "nft_bridge": "0x5c5979832A60c17bB06676fa906bEdD1A013e18c",
+      "tokens": [],
+      "app_chain_id": 17,
+      "chain_id": 1116,
+      "start_height": 0,
+      "end_height": 0,
+      "wait_num": 25,
+      "wait_second": 3,
+      "testnet": false,
+      "merge": true,
+      "stat_chains": [
+        {
+          "name": "polygon mainnet|bsc mainnet|combo testnet|celo|opbnb",
+          "l0_app_chain_id": [109,102,125],
+          "zk_app_chain_id": [114,116],
+          "start_height": 17162285,
+          "start_timestamp": 1682870400,
+          "end_height": 17233413,
+          "end_timestamp": 1683734400,
+          "stat_contract": [
+            {
+              "name": "onft",
+              "addr": "0x36e5121618c0Af89E81AcD33B6b8F5CF5cDD961a",
+              "start_height": 0,
+              "end_height": 0
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "l0 polygon mainnet",
+      "endpoint": "https://rpc.ankr.com/polygon/9b4c185910e116c4c899f349e1616730dbe94ec45dee6c5ffaa7e1f1a64c168d",
+      "zk_bridge": "",
+      "l0_nft_bridge": "0xFFdF4Fe05899C4BdB1676e958FA9F21c19ECB9D5",
+      "nft_bridge": "0x2E953a70C37E8CB4553DAe1F5760128237c8820D",
+      "tokens": [],
+      "mailbox": "",
+      "mailbox_greenfield": "",
+      "app_chain_id": 3,
+      "chain_id": 56,
+      "start_height": 27815520,
+      "end_height": 28101926,
+      "wait_num": 15,
+      "wait_second": 3,
+      "testnet": false,
+      "merge": false,
+      "stat_chains": [
+        {
+          "name": "core dao|bsc mainnet|combo testnet|celo|opbnb",
+          "l0_app_chain_id": [153,102,125],
+          "zk_app_chain_id": [114,116],
+          "start_height": 17162285,
+          "start_timestamp": 1682870400,
+          "end_height": 17233413,
+          "end_timestamp": 1683734400,
+          "stat_contract": [
+            {
+              "name": "onft",
+              "addr": "0x141A1fb33683C304DA7C3fe6fC6a49B5C0c2dC42",
+              "start_height": 0,
+              "end_height": 0
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "l0 bsc mainnet",
+      "endpoint": "https://rpc.ankr.com/bsc/9b4c185910e116c4c899f349e1616730dbe94ec45dee6c5ffaa7e1f1a64c168d",
+      "zk_bridge": "",
+      "l0_nft_bridge": "0x3668c325501322CEB5a624E95b9E16A019cDEBe8",
+      "nft_bridge": "0xE09828f0DA805523878Be66EA2a70240d312001e",
+      "tokens": [],
+      "app_chain_id": 3,
+      "chain_id": 56,
+      "start_height": 0,
+      "end_height": 0,
+      "wait_num": 15,
+      "wait_second": 3,
+      "testnet": false,
+      "merge": false,
+      "stat_chains": [
+        {
+          "name": "core dao|polygon mainnet|combo testnet|celo|opbnb",
+          "l0_app_chain_id": [153,109,125],
+          "zk_app_chain_id": [114,116],
+          "start_height": 17162285,
+          "start_timestamp": 1682870400,
+          "end_height": 17233413,
+          "end_timestamp": 1683734400,
+          "stat_contract": [
+            {
+              "name": "onft",
+              "addr": "0x87a218Ae43C136B3148A45EA1A282517794002c8",
+              "start_height": 0,
+              "end_height": 0
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "l0 celo",
+      "endpoint": "https://rpc.ankr.com/celo/9b4c185910e116c4c899f349e1616730dbe94ec45dee6c5ffaa7e1f1a64c168d",
+      "zk_bridge": "",
+      "l0_nft_bridge": "0xe47b0a5F2444F9B360Bd18b744B8D511CfBF98c6",
+      "nft_bridge": "0x24339b7f8d303527C8681382AbD4Ec299757aF63",
+      "tokens": [],
+      "app_chain_id": 3,
+      "chain_id": 56,
+      "start_height": 0,
+      "end_height": 0,
+      "wait_num": 15,
+      "wait_second": 3,
+      "testnet": false,
+      "merge": false,
+      "stat_chains": [
+        {
+          "name": "bsc mainnet|core dao|polygon mainnet|combo testnet|opbnb",
+          "l0_app_chain_id": [102,153,109],
+          "zk_app_chain_id": [114,116],
+          "start_height": 17162285,
+          "start_timestamp": 1682870400,
+          "end_height": 17233413,
+          "end_timestamp": 1683734400,
+          "stat_contract": [
+            {
+              "name": "onft",
+              "addr": "0xb404e5233aB7E426213998C025f05EaBaBD41Da6",
+              "start_height": 0,
+              "end_height": 0
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "stat_claim_nft_sender": [
+    {
+      "dst": {
+        "name": "opbnb testnet",
+        "endpoint": "https://opbnb-testnet.nodereal.io/v1/0daebfa60722447594b98bafcacf73bc",
+        "target_token": "",
+        "start_height": 25484,
+        "nft_bridge": "0xbA09FDF988d4113460dbdD96FEfD33C8400E4E0D",
+        "app_chain_id": 116,
+        "chain_id": 5611
+      },
+      "src": {
+        "name": "combo testnet",
+        "endpoint": "https://test-rpc.combonetwork.io",
+        "tokens": [
+          {
+            "name": "combo nft",
+            "address": "0x20Cb10B8f601d4B2C62962BB938554F3824e24f3",
+            "bridges": "0x8E69018871C8d30788Dcaf8ee2c97D8F8ecE5d8D",
+            "start_height": 0,
+            "start_timestamp": 0,
+            "end_height": 0,
+            "end_timestamp": 0
+          }
+        ],
+        "start_height": 8383384,
+        "nft_bridge": "0x8E69018871C8d30788Dcaf8ee2c97D8F8ecE5d8D",
+        "app_chain_id": 114,
+        "chain_id": 91715
+      }
+    }
+  ],
+  "stat_receiver_nft": [
+    {
+      "name": "l0 mantle",
+      "endpoint": "https://rpc.mantle.xyz",
+      "zk_bridge": "",
+      "l0_nft_bridge": "0x5E6D2a7aA45277cA3037FebA4a30CbB8f8caD3B9",
+      "nft_bridge": "",
+      "tokens": [],
+      "app_chain_id": 3,
+      "chain_id": 56,
+      "start_height": 0,
+      "end_height": 0,
+      "wait_num": 15,
+      "wait_second": 3,
+      "testnet": false,
+      "merge": false,
+      "stat_contract": [
+        {
+          "name": "bsc onft",
+          "addr": "0x03dDC4b60D6bBf399A8397d73462060FdFb83476",
+          "start_height": 0,
+          "end_height": 0
+        },
+        {
+          "name": "polygon onft",
+          "addr": "0xCf995797cB2E65Cc290e084f0127B1e8Ebc692c8",
+          "start_height": 0,
+          "end_height": 0
+        },
+        {
+          "name": "core dao onft",
+          "addr": "0xE09828f0DA805523878Be66EA2a70240d312001e",
+          "start_height": 0,
+          "end_height": 0
+        },
+        {
+          "name": "celo onft",
+          "addr": "0xA98163227B85CcC765295Ce5C18E8aAD663De147",
+          "start_height": 0,
+          "end_height": 0
+        }
+      ]
+    }
+  ]
 }

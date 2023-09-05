@@ -11,6 +11,7 @@ import (
 	"strconv"
 	"strings"
 	"sync"
+	"time"
 )
 
 func JudgHaveHisData(dirPath string) (bool, error) {
@@ -100,21 +101,33 @@ func DirIsEmpty(path string) (bool, error) {
 
 func GetChainCurHeight(chain Chain) (uint64, error) {
 	c, err := ethclient.Dial(chain.Endpoint)
+	defer c.Close()
 	if err != nil {
 		Logger.Errorln(err)
-		return 0, err
+		panic(err)
 	}
 
 	height, err := c.BlockNumber(context.Background())
-	if err != nil {
-		Logger.Errorln(err)
-		return 0, err
+	for err != nil {
+		Logger.Errorf("chain: %v,err: %v", chain.Name, err)
+		time.Sleep(10 * time.Second)
+		height, err = c.BlockNumber(context.Background())
 	}
 	return height, nil
 }
 
 func CreateMsgCsvFileName(chainName, fileDataStr string, endHeight uint64) string {
 	name := chainName + "-" + "msg" + "-" + strconv.FormatUint(endHeight, 10) + "-" + fileDataStr
+	return name
+}
+
+func CreateReceiverNftCsvFileName(chainName, tokenName, fileDataStr string, endHeight uint64) string {
+	name := chainName + "-" + tokenName + "-" + "stat_receiver" + "-" + strconv.FormatUint(endHeight, 10) + "-" + fileDataStr
+	return name
+}
+
+func CreateClaimNftSenderCsvName(key, fileDataStr string, srcHeight, dstHeight uint64) string {
+	name := key + "-" + "stat_claim_nft_sender" + "-" + strconv.FormatUint(srcHeight, 10) + "-" + strconv.FormatUint(dstHeight, 10) + "-" + fileDataStr
 	return name
 }
 
@@ -125,6 +138,22 @@ func CreateNftCsvFileName(chainName, fileDataStr, tokenName string, endHeight ui
 
 func CreateNftBridgeCsvFileName(chainName, fileDataStr, tokenName string, endHeight uint64) string {
 	name := chainName + "-" + tokenName + "-" + "stat_sender" + "-" + strconv.FormatUint(endHeight, 10) + "-" + fileDataStr
+	return name
+}
+
+func CreateNftBridgeForReceiverCsvFileName(chainName, fileDataStr, receiverChainName string, endHeight uint64, tokenName string) string {
+	name := chainName + "-" + receiverChainName + "-" + tokenName + "-" + "stat_sender" + "-" + strconv.FormatUint(endHeight, 10) + "-" + fileDataStr
+	return name
+}
+
+func CreateNftBridgeForReceiversCsvFileName(chainName, fileDataStr, receiverChainAndTokenName string, endHeight uint64) string {
+
+	name := chainName + "-" + receiverChainAndTokenName + "-" + "stat_sender" + "-" + strconv.FormatUint(endHeight, 10) + "-" + fileDataStr
+	return name
+}
+
+func CreateDomainCsvFileName(domainTy, fileDataStr string, endTimestamp int64) string {
+	name := domainTy + "-" + "stat_domain" + "-" + strconv.FormatInt(endTimestamp, 10) + "-" + fileDataStr
 	return name
 }
 
@@ -194,6 +223,14 @@ func ToCsv(list *sync.Map, filePath, name string) (int, error) {
 	return l, nil
 }
 
+func ErrorIsNotExist(e error) bool {
+	if strings.Contains(e.Error(), "no such file or directory") {
+		return true
+	} else {
+		return false
+	}
+}
+
 func GetPrevChainEndHeight(csvRootDirPath, dirDataStr string) (map[string]uint64, error) {
 	m := make(map[string]uint64)
 	filePath := csvRootDirPath + "/" + dirDataStr + "/stat_msg_sender"
@@ -206,6 +243,27 @@ func GetPrevChainEndHeight(csvRootDirPath, dirDataStr string) (map[string]uint64
 	for _, file := range files {
 		mates := strings.Split(file.Name(), "-")
 		height, err := strconv.ParseUint(mates[2], 10, 64)
+		if err != nil {
+			Logger.Errorln(err)
+			return nil, err
+		}
+		m[mates[0]] = height
+	}
+	return m, nil
+}
+
+func GetPrevDomainEndTimestamp(csvRootDirPath, dirDataStr string) (map[string]int64, error) {
+	m := make(map[string]int64)
+	filePath := csvRootDirPath + "/" + dirDataStr + "/stat_domain"
+	files, err := ioutil.ReadDir(filePath)
+	if err != nil {
+		Logger.Errorln(err)
+		return nil, err
+	}
+
+	for _, file := range files {
+		mates := strings.Split(file.Name(), "-")
+		height, err := strconv.ParseInt(mates[2], 10, 64)
 		if err != nil {
 			Logger.Errorln(err)
 			return nil, err
@@ -236,6 +294,107 @@ func GetPrevChainTokensEndHeight(csvRootDirPath, dirDataStr string) (map[string]
 	return m, nil
 }
 
+type DoubleChainHeight struct {
+	SrcHeight uint64 `json:"src_height"`
+	DstHeight uint64 `json:"dst_height"`
+}
+
+func GetPrevChainStatClaimNftSenderEndHeight(csvRootDirPath, dirDataStr string) (map[string]DoubleChainHeight, error) {
+	m := make(map[string]DoubleChainHeight)
+	filePath := csvRootDirPath + "/" + dirDataStr + "/stat_claim_nft_sender"
+	files, err := ioutil.ReadDir(filePath)
+	if err != nil {
+		Logger.Errorln(err)
+		return nil, err
+	}
+
+	for _, file := range files {
+		mates := strings.Split(file.Name(), "-")
+		srcHeight, err := strconv.ParseUint(mates[5], 10, 64)
+		if err != nil {
+			Logger.Errorln(err)
+			return nil, err
+		}
+		dstHeight, err := strconv.ParseUint(mates[6], 10, 64)
+		if err != nil {
+			Logger.Errorln(err)
+			return nil, err
+		}
+
+		key := mates[0] + "-" + mates[1] + "-" + mates[2] + "-" + mates[3]
+
+		m[key] = DoubleChainHeight{
+			SrcHeight: srcHeight,
+			DstHeight: dstHeight,
+		}
+	}
+	return m, nil
+}
+
+func GetPrevChainReceiverNftEndHeight(csvRootDirPath, dirDataStr string) (map[string]uint64, error) {
+	m := make(map[string]uint64)
+	filePath := csvRootDirPath + "/" + dirDataStr + "/stat_nftbridge_receiver_nft"
+	files, err := ioutil.ReadDir(filePath)
+	if err != nil {
+		Logger.Errorln(err)
+		return nil, err
+	}
+
+	for _, file := range files {
+		mates := strings.Split(file.Name(), "-")
+		height, err := strconv.ParseUint(mates[3], 10, 64)
+		if err != nil {
+			Logger.Errorln(err)
+			return nil, err
+		}
+		m[mates[0]+"-"+mates[1]] = height
+	}
+	return m, nil
+}
+
+func GetPrevStatNftEndHeight(csvRootDirPath, dirDataStr string) (map[string]uint64, error) {
+	m := make(map[string]uint64)
+	filePath := csvRootDirPath + "/" + dirDataStr + "/stat_nft_minter"
+	files, err := ioutil.ReadDir(filePath)
+	if err != nil {
+		Logger.Errorln(err)
+		return nil, err
+	}
+
+	for _, file := range files {
+		mates := strings.Split(file.Name(), "-")
+		height, err := strconv.ParseUint(mates[3], 10, 64)
+		if err != nil {
+			Logger.Errorln(err)
+			return nil, err
+		}
+		m[mates[0]+"-"+mates[1]] = height
+	}
+	return m, nil
+}
+
+func GerPrevChainReceiverEndHeight(csvRootDirPath, dirDataStr string) (map[string]uint64, error) {
+	m := make(map[string]uint64)
+	filePath := csvRootDirPath + "/" + dirDataStr + "/stat_nftbridge_receiver_chain_sender"
+	files, err := ioutil.ReadDir(filePath)
+	if err != nil {
+		Logger.Errorln(err)
+		return nil, err
+	}
+
+	for _, file := range files {
+		Logger.Infof("file: %v", file.Name())
+		mates := strings.Split(file.Name(), "-")
+		height, err := strconv.ParseUint(mates[4], 10, 64)
+		if err != nil {
+			Logger.Errorln(err)
+			return nil, err
+		}
+		m[mates[0]+"-"+mates[1]+"-"+mates[2]] = height
+	}
+	return m, nil
+}
+
 func ToInfoJson(filePath string, infos []*Info) error {
 	f, err := os.Create(filePath + "/" + "info" + ".json")
 	if err != nil {
@@ -255,4 +414,30 @@ func ToInfoJson(filePath string, infos []*Info) error {
 		return err
 	}
 	return nil
+}
+
+func JudgeWhetherItIsNextMonth(csvRootDirPath, dirDataStr string) (bool, error) {
+	//m := make(map[string]uint64)
+	filePath := csvRootDirPath + "/" + dirDataStr + "/stat_msg_sender"
+	files, err := ioutil.ReadDir(filePath)
+	if err != nil {
+		Logger.Errorln(err)
+		return false, err
+	}
+	prevMonth := ""
+	nowMonth := time.Now().Month().String()
+
+	for _, file := range files {
+		mates := strings.Split(file.Name(), "-")
+		prevDate := strings.Split(mates[3], ".")
+		prevMonth = prevDate[1]
+		break
+	}
+	if prevMonth == nowMonth {
+		Logger.Infof("diff month, prevMonth: %v, nowMonth: %v", prevMonth, nowMonth)
+		return false, nil
+	} else {
+		Logger.Infof("same month, prevMonth: %v, nowMonth: %v", prevMonth, nowMonth)
+		return true, nil
+	}
 }

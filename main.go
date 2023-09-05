@@ -1,109 +1,161 @@
 package main
 
 import (
-	"context"
 	"encoding/json"
 	"fmt"
-	"github.com/ethereum/go-ethereum"
-	"github.com/ethereum/go-ethereum/common"
-	"github.com/ethereum/go-ethereum/ethclient"
 	"github.com/gin-gonic/gin"
 	"github.com/robfig/cron/v3"
 	"io/ioutil"
-	"math/big"
 	"net/http"
 	"os"
-	"strings"
 	"sync"
 	"time"
-	"yunyc12345/statistics-of-bridge-data/contracts"
-	"yunyc12345/statistics-of-bridge-data/handle"
 	"yunyc12345/statistics-of-bridge-data/task"
 	"yunyc12345/statistics-of-bridge-data/utils"
 )
 
-func main2() {
+func main() {
 	utils.InitLogger(&utils.LogConf{
 		Level: "info",
-		Path:  "log/app.log",
+		Path:  "simple2/app.log",
 	})
+	wg := &sync.WaitGroup{}
 
-	c, err := ethclient.Dial("https://bsc-mainnet.nodereal.io/v1/29c57e58ee374baca2e9ad15a5c8273e")
-	if err != nil {
-		panic("")
-	}
-	abi, err := contracts.NftBridgeMetaData.GetAbi()
-	if err != nil {
-		panic("")
-		return
-	}
+	//wg.Add(1)
+	//go eth_alpha_mint_stat(wg)
+	//
+	//wg.Add(1)
+	//go bsc_alpha_mint_stat(wg)
+	//
+	//wg.Wait()
+	//utils.Logger.Info("alpha stat over")
 
-	list, _, err := utils.GetYesterdayCsvData("/home/m/go/src/yunyc12345/statistics-of-bridge-data/csv3/2023-05-15/stat_nftbridge_sender/bsc mainnet-cobee-stat_sender-28207389-2023.05.15")
-	if err != nil {
-		panic("")
-	}
+	//
+	//wg.Wait()
+	//utils.Logger.Info("stat msg over")
 
-	event := abi.Events["TransferNFT"]
-	curHeight, nextHeight := uint64(27532007), uint64(27532007)
-	internal := uint64(10000)
-	for curHeight < 27815520 {
-		if curHeight+internal >= 27815520 {
-			nextHeight = 27815520
-		} else {
-			nextHeight += internal
-		}
+	//wg.Add(1)
+	//go eth_stat_nftbridge_sender(wg)
+	//
+	//wg.Add(1)
+	//go bsc_stat_nftbridge_sender(wg)
+	//
+	//wg.Wait()
+	//utils.Logger.Info("stat nftbridge sender over")
 
-		fmt.Printf("chain: bsc, height: %v ~ %v\n", curHeight, nextHeight)
+	//wg.Add(1)
+	//go eth_stat_nftbridge_sender_for_receiver_chain(wg)
+	//
+	//wg.Add(1)
+	//go bsc_stat_nftbridge_sender_for_receiver_chain(wg)
+	//
+	//wg.Wait()
+	//utils.Logger.Info("stat nftbridge for receiver chain sender over")
 
-		query := ethereum.FilterQuery{
-			BlockHash: nil,
-			FromBlock: big.NewInt(int64(curHeight)), // The error will occur if logs cannot be pulled from the latest block, with a difference of 32.
-			ToBlock:   big.NewInt(int64(nextHeight)),
-			Addresses: []common.Address{common.HexToAddress("0xE09828f0DA805523878Be66EA2a70240d312001e")},
-			Topics:    [][]common.Hash{{event.ID}},
-		}
-		ctx := context.Background()
-		try := 0
-		logs, err := c.FilterLogs(ctx, query)
-		for err != nil && try <= 10 {
-			try++
-			fmt.Printf("chain: bsc, try: %v, get logs error :%v\n", try, err)
-			time.Sleep(5 * time.Second)
-			logs, err = c.FilterLogs(ctx, query)
-		}
+	//wg.Add(1)
+	//go polygon_stat_nftbridge_sender(wg)
 
-		if err != nil || try > 10 {
-			fmt.Printf("chain: bsc, try: %v, get logs error :%v\n", try, err)
-		}
+	//wg.Add(3)
+	//go polygon_alpha_mint_stat(wg)
 
-		fmt.Printf("chain: bsc, logs len: %v\n", len(logs))
+	//go polygon_zkLightClient_mint_stat(wg)
+	//
+	//go eth_zkLightClient_mint_stat(wg)
+	//
+	//go bsc_zkLightClient_mint_stat(wg)
 
-		for _, l := range logs {
-			eventData, err := abi.Unpack(event.Name, l.Data)
-			if err != nil {
-				panic("")
-			}
-			sender := strings.ToLower(eventData[3].(common.Address).Hex())
-			tokenAddress := strings.ToLower(eventData[0].(common.Address).Hex())
-			if tokenAddress == strings.ToLower("0x9e8c1e7b35f646a606644a5532c6103c647938cf") {
-				list.Store(sender, utils.Member)
-			}
+	//go polygon_stat_nftbridge_sender_zklightclient(wg)
+	//
+	//go eth_stat_nftbridge_sender_zklightclient(wg)
+	//
+	//go bsc_stat_nftbridge_sender_zklightclient(wg)
 
-		}
+	//go bsc_faucet_mint_stat(wg)
 
-		time.Sleep(1 * time.Second)
+	//go eth_stat_msg(wg)
+	//go bsc_stat_msg(wg)
+	//go polygon_stat_msg(wg)
 
-		curHeight = nextHeight
+	//wg.Add(2)
+	//go bsc_stat_nftbridge_sender_lubun_loyalty(wg)
+	//
+	//go bsc_luban_loyalty_mint_stat(wg)
 
-	}
+	//go coredao_alpha_mint_stat(wg)
+	//
+	//go coredao_stat_nftbridge_sender_alpha(wg)
 
-	_, err = utils.ToCsv(list, "/home/m/go/src/yunyc12345/statistics-of-bridge-data/csv/", "bsc mainnet-cobee-stat_sender-28207389-2023.05.15")
-	if err != nil {
-		utils.Logger.Errorf("stat nft bridge sender to csv err: %v", err)
-	}
+	//wg.Add(4)
+
+	//go polygon_opbnb_mint_stat(wg)
+	//
+	//go coredao_opbnb_mint_stat(wg)
+	//
+	//go eth_opbnb_mint_stat(wg)
+	//
+	//go bsc_opbnb_mint_stat(wg)
+
+	//go eth_stat_nftbridge_sender_for_receiver_opbnb_chain(wg)
+	//
+	//go bsc_stat_nftbridge_sender_for_receiver_opbnb_chain(wg)
+	//wg.Add(5)
+	//go polygon_stat_nftbridge_sender_for_receiver_opbnb_chain(wg)
+	//
+	//go coredao_stat_nftbridge_sender_for_receiver_opbnb_chain(wg)
+
+	//go coredao_stat_msg(wg)
+
+	//go celo_stat_msg(wg)
+
+	//go bsc_stat_msg_and_hist(wg)
+	//
+	//go eth_stat_msg_and_hist(wg)
+	//
+	//go polygon_stat_msg_and_hist(wg)
+	//
+	//go coredao_stat_msg_and_hist(wg)
+	//
+	//go celo_stat_msg_and_hist(wg)
+	//wg.Add(1)
+	//go coredao_stat_nftbridge_sender_alpha(wg)
+
+	//wg.Add(4)
+	//
+	//go l0_coredao_stat_nftbridge_sender_for_receiver_opbnb_chain(wg)
+	//
+	//go l0_bsc_stat_nftbridge_sender_for_receiver_opbnb_chain(wg)
+	//
+	//go l0_polygon_stat_nftbridge_sender_for_receiver_opbnb_chain(wg)
+	//
+	//go l0_celo_stat_nftbridge_sender_for_receiver_opbnb_chain(wg)
+	//wg.Add(7)
+	//
+	//go l0_bsc_stat_nftbridge_sender_alpha(wg)
+	//go l0_coredao_stat_nftbridge_sender_alpha(wg)
+	//go l0_eth_stat_nftbridge_sender_alpha(wg)
+	//go l0_polygon_stat_nftbridge_sender_alpha(wg)
+	//
+	//go l0_bsc_stat_nftbridge_sender_zklightclient(wg)
+	//go l0_eth_stat_nftbridge_sender_zklightclient(wg)
+	//go l0_polygon_stat_nftbridge_sender_zklightclient(wg)
+
+	//wg.Add(1)
+	//go l0_bsc_stat_nftbridge_sender_lubun_loyalty(wg)
+
+	//wg.Add(1)
+	//go coredao_alpha_mint_stat(wg)
+
+	wg.Add(1)
+	//go l0_mantle_stat_nftbridge_receiver_nft(wg)
+	//go bsc_stat_nftbridge_sender_sbt(wg)
+	//go combo_to_opbnb_claim_origin(wg)
+	go combo_to_opbnb_claim2(wg)
+
+	wg.Wait()
+	utils.Logger.Info("stat nftbridge for receiver chain sender over")
 }
 
-func main() {
+func main3242355() {
 
 	utils.InitLogger(&utils.LogConf{
 		Level: "info",
@@ -134,30 +186,30 @@ func main() {
 		panic(err)
 	}
 
-	b, err := utils.JudgHaveHisData(config.Server.CsvFilePath)
-	if err != nil {
-		utils.Logger.Info("init 2023-05-11 data not exist")
-	}
-
-	if !b {
-		utils.Logger.Info("There is no initial data for 2023-05-11 00:00. Initialization process will begin.")
-		w := &sync.WaitGroup{}
-
-		go handle.TriggerNftStat(config.MainnetNftMinterStatistics, w, config.Server.CsvFilePath, "2023-05-11", "2023.05.11", nil)
-
-		go handle.TriggerNftBridgeStat(config.MainnetNftbridgeSendersStatistics, w, config.Server.CsvFilePath, "2023-05-11", "2023.05.11", nil)
-
-		go handle.TriggerMsgStat(config.MainnetMsgSendersStatistics, w, config.Server.CsvFilePath, "2023-05-11", "2023.05.11", nil)
-
-		time.Sleep(time.Second * 20)
-		w.Wait()
-		err := utils.ZipStat("2023-05-11", config.Server.CsvFilePath)
-		if err != nil {
-			panic(err)
-		}
-
-		utils.Logger.Info("init handle over")
-	}
+	//b, err := utils.JudgHaveHisData(config.Server.CsvFilePath)
+	//if err != nil {
+	//	utils.Logger.Info("init 2023-05-11 data not exist")
+	//}
+	//
+	//if !b {
+	//	utils.Logger.Info("There is no initial data for 2023-05-11 00:00. Initialization process will begin.")
+	//	w := &sync.WaitGroup{}
+	//
+	//	go handle.TriggerNftStat(config.MainnetNftMinterStatistics, w, config.Server.CsvFilePath, "2023-05-11", "2023.05.11", nil)
+	//
+	//	go handle.TriggerNftBridgeStat(config.MainnetNftbridgeSendersStatistics, w, config.Server.CsvFilePath, "2023-05-11", "2023.05.11", nil)
+	//
+	//	go handle.TriggerMsgStat(config.MainnetMsgSendersStatistics, w, config.Server.CsvFilePath, "2023-05-11", "2023.05.11", nil, false)
+	//
+	//	time.Sleep(time.Second * 20)
+	//	w.Wait()
+	//	err := utils.ZipStat("2023-05-11", config.Server.CsvFilePath)
+	//	if err != nil {
+	//		panic(err)
+	//	}
+	//
+	//	utils.Logger.Info("init handle over")
+	//}
 
 	utils.Logger.Info("start server")
 
@@ -169,11 +221,19 @@ func main() {
 
 	task.StatNftBridgeSenderTask(config, crontab)
 
+	task.StatDomainAddressTask(config, crontab)
+
+	task.StatNftBridgeSenderForReceiverChainTask(config, crontab)
+
+	task.ReceiverNftTask(config, crontab)
+
+	task.StatClaimNftSender(config, crontab)
+
 	crontab.Start()
 
 	r := gin.Default()
 	r.GET("/", func(c *gin.Context) {
-		c.String(200, "Hello, Geektutu")
+		c.String(200, "Hello")
 	})
 
 	r.GET("/csv/", func(c *gin.Context) {
@@ -255,6 +315,10 @@ func main() {
 			go task.MsgSenderTask(config, p, &req)
 			go task.NftMinterTask(config, p, &req)
 			go task.NftBridgeSenderTask(config, p, &req)
+			go task.DomainAddressTask(config, p)
+			go task.NftBridgeSenderForReceiverChainTask(config, p, &req)
+			go task.StatReceiverNftTask(config, p, &req)
+			go task.StatClaimNftSenderTask(config, p, &req)
 		}
 
 		return

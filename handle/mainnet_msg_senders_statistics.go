@@ -13,7 +13,7 @@ import (
 	"yunyc12345/statistics-of-bridge-data/utils"
 )
 
-func TriggerMsgStat(chains []utils.Chain, w *sync.WaitGroup, filePath, dataStr, fileDataStr string, hisList []*sync.Map) {
+func TriggerMsgStat(chains []utils.Chain, w *sync.WaitGroup, filePath, dataStr, fileDataStr string, hisList []*sync.Map, diffMonth bool) {
 	fp := filePath + "/" + dataStr + "/stat_msg_sender"
 	err := utils.CreateCsvDir(fp)
 	if err != nil {
@@ -35,6 +35,9 @@ func TriggerMsgStat(chains []utils.Chain, w *sync.WaitGroup, filePath, dataStr, 
 			list := &sync.Map{}
 			if hisList != nil && len(hisList) != 0 {
 				list = hisList[index]
+			}
+			if diffMonth {
+				list = &sync.Map{}
 			}
 			StatMsgSenderHandler(c, list)
 
@@ -73,7 +76,14 @@ func StatMsgSenderHandler(chain utils.Chain, list *sync.Map) {
 
 	event := abi.Events["MessageSend"]
 	curHeight, nextHeight := chain.StartHeight, chain.StartHeight
-	internal := uint64(10000)
+	internal := uint64(3000)
+	if chain.Name == "polygon mainnet" {
+		internal = uint64(2000)
+	}
+
+	if chain.Name == "celo" {
+		internal = uint64(1000)
+	}
 
 	//contractAddr := cd.Info.NftBridge
 	//contractGfAddr := cd.Info.MailboxGreenfield
@@ -101,11 +111,20 @@ func StatMsgSenderHandler(chain utils.Chain, list *sync.Map) {
 
 		utils.Logger.Infof("chain: %v, height: %v ~ %v", cd.Info.Name, curHeight, nextHeight)
 
+		addrs := make([]common.Address, 0)
+		for _, s := range cd.Info.Mailer {
+			addrs = append(addrs, common.HexToAddress(s))
+		}
+
+		for _, s := range cd.Info.MailerGreenfield {
+			addrs = append(addrs, common.HexToAddress(s))
+		}
+
 		query := ethereum.FilterQuery{
 			BlockHash: nil,
 			FromBlock: big.NewInt(int64(curHeight)), // The error will occur if logs cannot be pulled from the latest block, with a difference of 32.
 			ToBlock:   big.NewInt(int64(nextHeight)),
-			Addresses: []common.Address{common.HexToAddress(cd.Info.Mailer), common.HexToAddress(cd.Info.MailerGreenfield)},
+			Addresses: addrs,
 			Topics:    [][]common.Hash{{event.ID}},
 		}
 
@@ -130,7 +149,7 @@ func StatMsgSenderHandler(chain utils.Chain, list *sync.Map) {
 				utils.Logger.Errorf("chain: %v, height: %v ~ %v, parse log err: %v", cd.Info.Name, curHeight, nextHeight, err)
 				return
 			}
-			sender := strings.ToLower(eventData[1].(common.Address).Hex())
+			sender := strings.ToLower(eventData[0].(common.Address).Hex())
 			list.Store(sender, utils.Member)
 		}
 

@@ -88,7 +88,10 @@ func StatNftMinterHandler(chain utils.Chain, t utils.Token, list *sync.Map) {
 	event := abi.Events["Transfer"]
 	curHeight, nextHeight := t.StartHeight, t.StartHeight
 
-	internal := uint64(10000)
+	internal := uint64(3000)
+	if chain.Name == "polygon mainnet" {
+		internal = uint64(2000)
+	}
 
 	//contractAddr := ""
 	//if cd.Info.Name == "eth mainnet" {

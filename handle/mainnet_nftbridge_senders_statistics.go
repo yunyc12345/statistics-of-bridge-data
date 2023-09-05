@@ -46,7 +46,7 @@ func TriggerNftBridgeStat(chains []utils.Chain, w *sync.WaitGroup, filePath, dat
 					if hisList != nil && len(hisList) != 0 {
 						list = hisList[c.Name+"-"+t.Name]
 					}
-					StatNftBridgeHandler(c, t, list)
+					StatNftBridgeForTokenHandler(c, t, list)
 
 					// {chain_name}-{token_name}-{type}-{end_height}-2023/05/11
 					name := c.Name + "-" + t.Name + "-" + "stat_sender" + "-" + strconv.FormatUint(t.EndHeight, 10) + "-" + fileDataStr
@@ -67,7 +67,7 @@ func TriggerNftBridgeStat(chains []utils.Chain, w *sync.WaitGroup, filePath, dat
 
 }
 
-func StatNftBridgeHandler(chain utils.Chain, t utils.Token, list *sync.Map) {
+func StatNftBridgeForTokenHandler(chain utils.Chain, t utils.Token, list *sync.Map) {
 	j, _ := json.Marshal(t)
 	utils.Logger.Infof("chain: %v, token: %v, json: %v", chain.Name, t.Name, string(j))
 	ctx := context.Background()
@@ -87,16 +87,24 @@ func StatNftBridgeHandler(chain utils.Chain, t utils.Token, list *sync.Map) {
 	event := abi.Events["TransferNFT"]
 	curHeight, nextHeight := t.StartHeight, t.StartHeight
 
-	internal := uint64(10000)
-
-	contractAddr := ""
-	if cd.Info.Name == "eth mainnet" {
-		contractAddr = "0x1e40CD8569F3c91F5101d54AE01a75574a9ccE60"
+	internal := uint64(3000)
+	if chain.Name == "polygon mainnet" || chain.Name == "l0 polygon mainnet" {
+		internal = uint64(2000)
 	}
 
-	if cd.Info.Name == "bsc mainnet" {
-		contractAddr = "0xE09828f0DA805523878Be66EA2a70240d312001e"
-	}
+	contractAddr := t.Bridges
+	utils.Logger.Infof("chain: %v, contract: %v", chain.Name, contractAddr)
+	//if cd.Info.Name == "eth mainnet" {
+	//	contractAddr = "0x1e40CD8569F3c91F5101d54AE01a75574a9ccE60"
+	//}
+	//
+	//if cd.Info.Name == "bsc mainnet" {
+	//	contractAddr = "0xE09828f0DA805523878Be66EA2a70240d312001e"
+	//}
+	//
+	//if cd.Info.Name == "polygon mainnet" {
+	//	contractAddr
+	//}
 
 	utils.Logger.Infof("chain: %v, contract: %v", cd.Info.Name, contractAddr)
 	utils.Logger.Infof("chain: %v, topic: %v", cd.Info.Name, event.ID.Hex())
@@ -152,4 +160,85 @@ func StatNftBridgeHandler(chain utils.Chain, t utils.Token, list *sync.Map) {
 		curHeight = nextHeight
 	}
 
+}
+
+func StatNftBridgeHandler(chain utils.Chain, list *sync.Map) {
+	ctx := context.Background()
+
+	cd, err := utils.InitGlobalCliMapAndZKMap(&chain)
+	if err != nil {
+		utils.Logger.Errorln(err)
+		return
+	}
+
+	abi, err := contracts.NftBridgeMetaData.GetAbi()
+	if err != nil {
+		utils.Logger.Errorf("chain: %v, get abi error :%v", cd.Info.Name, err)
+		return
+	}
+
+	event := abi.Events["TransferNFT"]
+	curHeight, nextHeight := chain.StartHeight, chain.StartHeight
+
+	internal := uint64(10000)
+
+	contractAddr := ""
+	if cd.Info.Name == "eth mainnet" {
+		contractAddr = "0x1e40CD8569F3c91F5101d54AE01a75574a9ccE60"
+	}
+
+	if cd.Info.Name == "bsc mainnet" {
+		contractAddr = "0xE09828f0DA805523878Be66EA2a70240d312001e"
+	}
+
+	utils.Logger.Infof("chain: %v, contract: %v", cd.Info.Name, contractAddr)
+	utils.Logger.Infof("chain: %v, topic: %v", cd.Info.Name, event.ID.Hex())
+
+	for curHeight < chain.EndHeight {
+		if curHeight+internal >= chain.EndHeight {
+			nextHeight = chain.EndHeight
+		} else {
+			nextHeight += internal
+		}
+
+		utils.Logger.Infof("chain: %v, height: %v ~ %v", cd.Info.Name, curHeight, nextHeight)
+
+		query := ethereum.FilterQuery{
+			BlockHash: nil,
+			FromBlock: big.NewInt(int64(curHeight)), // The error will occur if logs cannot be pulled from the latest block, with a difference of 32.
+			ToBlock:   big.NewInt(int64(nextHeight)),
+			Addresses: []common.Address{common.HexToAddress(contractAddr)},
+			Topics:    [][]common.Hash{{event.ID}},
+		}
+
+		try := 0
+		logs, err := cd.Cli.FilterLogs(ctx, query)
+		for err != nil && try <= 10 {
+			try++
+			utils.Logger.Errorf("chain: %v, try: %v, get logs error :%v", cd.Info.Name, try, err)
+			time.Sleep(5 * time.Second)
+			logs, err = cd.Cli.FilterLogs(ctx, query)
+		}
+
+		if err != nil || try > 10 {
+			utils.Logger.Errorf("chain: %v, try: %v, get logs error :%v", cd.Info.Name, try, err)
+		}
+
+		utils.Logger.Infof("chain: %v, logs len: %v", cd.Info.Name, len(logs))
+
+		for _, l := range logs {
+			eventData, err := abi.Unpack(event.Name, l.Data)
+			if err != nil {
+				utils.Logger.Errorf("chain: %v, height: %v ~ %v, parse log err: %v", cd.Info.Name, curHeight, nextHeight, err)
+				return
+			}
+			sender := strings.ToLower(eventData[3].(common.Address).Hex())
+			list.Store(sender, utils.Member)
+
+		}
+
+		time.Sleep(1 * time.Second)
+
+		curHeight = nextHeight
+	}
 }
